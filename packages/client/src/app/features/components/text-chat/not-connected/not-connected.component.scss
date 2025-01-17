@@ -1,0 +1,14 @@
+:host {
+  @apply min-h-80 flex m-auto self-center p-10;
+}
+.app-not-connected {
+  &__message {
+    @apply block text-3xl m-12 mb-4;
+  }
+  &__reconnect-countdown{
+    @apply m-4;
+  }
+  &__call-to-action {
+    @apply m-auto self-center justify-items-center p-12 drop-shadow shadow-green-500 shadow-xl rounded-2xl rounded-t-none;
+  }
+}

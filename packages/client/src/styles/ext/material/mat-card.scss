@@ -1,0 +1,13 @@
+mat-card-content {
+  &.no-horizontal-padding {
+    & > div {
+      border-radius: 0;
+    }
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+mat-card + mat-card {
+  margin-top: 16px; /* Add margin only when preceded by another mat-card */
+}

@@ -1,0 +1,20 @@
+{
+    "search.exclude": {
+        "**/node_modules": true,
+        "**/dist": true,
+    },
+    "files.exclude": {
+        "**/node_modules": true,
+        "**/dist": true,
+    },
+    "editor.codeActionsOnSave": {
+        "source.organizeImports": "explicit"
+    },
+    "editor.wordWrapColumn": 80,
+    "editor.wordWrap": "wordWrapColumn",
+    "css.customData": [
+        ".vscode/tailwind.json"
+    ],
+    "scss.lint.unknownAtRules": "ignore",
+    "dotenv.enableAutocloaking": false
+}

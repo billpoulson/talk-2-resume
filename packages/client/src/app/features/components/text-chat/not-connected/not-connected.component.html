@@ -1,0 +1,12 @@
+<div [class]="bem('call-to-action')">
+  <p [class]="bem('message')">Not connected</p>
+  <app-connect-webservice-button [autoConnect]="true" />
+  <mat-card
+    [class]="bem('reconnect-countdown')"
+    *ngIf="reconnectCountdown$ | async as remaining"
+  >
+    <mat-card-content>
+      <p>reconnecting in {{ remaining }} seconds</p>
+    </mat-card-content>
+  </mat-card>
+</div>

@@ -1,0 +1,67 @@
+<mat-toolbar>
+  <mat-toolbar-row class="border-botttom-1px-white">
+    <div>
+      <mat-icon aria-hidden="false" aria-label="Example home icon"
+        >local_shipping</mat-icon
+      >&nbsp; Space Trucker
+    </div>
+    <span class="expand-block"></span>
+    <app-connect-webservice-button />
+    <app-voice-chat #awss />
+    <app-voice-chat-status [connectionRef]="awss"/>
+    <app-clock-toggle />
+  </mat-toolbar-row>
+
+  <mat-toolbar-row>
+    <h1 class="text-3xl font-bold">
+      Logged In as
+      <app-current-username />
+    </h1>
+  </mat-toolbar-row>
+</mat-toolbar>
+<mat-card class="example-card" appearance="outlined">
+  <mat-card-content>
+    <app-example-gameroot />
+  </mat-card-content>
+</mat-card>
+<mat-card class="example-card" appearance="outlined">
+  <mat-card-content>
+  </mat-card-content>
+</mat-card>
+<mat-card class="example-card" appearance="outlined">
+  <mat-card-content>
+    <app-acceleration-curve />
+  </mat-card-content>
+</mat-card>
+<mat-card class="example-card" appearance="outlined">
+  <mat-card-actions>
+    <mat-toolbar-row>
+      <app-connect-webservice-button />
+    </mat-toolbar-row>
+  </mat-card-actions>
+  <mat-card-content>
+    <app-chat-panel />
+  </mat-card-content>
+</mat-card>
+<mat-card class="example-card" appearance="outlined">
+  <mat-card-content>
+    <app-stackbar [blockCount]="blockCount"></app-stackbar>
+  </mat-card-content>
+</mat-card>
+
+<mat-divider></mat-divider>
+<mat-card class="example-card" appearance="outlined">
+  <mat-card-content>
+    <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start">
+      <mat-tab label="Loads">
+        <app-grid-example></app-grid-example>
+      </mat-tab>
+      <mat-tab label="Trucks">
+        <app-truck-details style="flex-grow: 1"></app-truck-details>
+        <app-truck-details style="flex-grow: 1"></app-truck-details>
+        <app-truck-details style="flex-grow: 1"></app-truck-details>
+      </mat-tab>
+      <mat-tab label="Pirates"> Pirates </mat-tab>
+    </mat-tab-group>
+  </mat-card-content>
+</mat-card>

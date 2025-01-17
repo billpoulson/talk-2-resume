@@ -1,0 +1,13 @@
+FROM node:22
+
+WORKDIR /app
+
+COPY .  ./
+
+RUN npm install -g @angular/cli
+RUN npm install
+RUN ng b @talk2resume/types
+RUN ng b @talk2resume/common
+EXPOSE 8080
+
+CMD [ "npm", "run" ,"watch", "-w=@talk2resume/api" ]

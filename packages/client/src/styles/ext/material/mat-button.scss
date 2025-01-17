@@ -1,0 +1,9 @@
+button + button {
+  &:not([role="menuitem"]) {
+    margin-left: 10px !important; /* Add margin-left only when preceded by another Material button */
+  }
+}
+// .mat-stroked-button {
+//   margin-left: 16px !important; /* Add margin-left only when preceded by another Material button */
+//   padding-left: 16px !important; /* Add margin-left only when preceded by another Material button */
+// }

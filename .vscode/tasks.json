@@ -1,0 +1,282 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "ngrok",
+      "type": "shell",
+      "command": "ngrok http --domain=tick-enough-kid.ngrok-free.app 4200",
+      "dependsOn": "ng serve",
+      "isBackground": true,
+      "problemMatcher": {
+        "owner": "NGROK",
+        "pattern": [
+          {
+            "regexp": "^(.+):\\[(\\d+),\\s*(\\d+)\\]:\\s*(ERROR|WARNING)\\s*-\\s*(.*)$",
+            "file": 1,
+            "line": 2,
+            "column": 3,
+            "severity": 4,
+            "message": 5
+          }
+        ],
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": ".*",
+          "endsPattern": ".*Session Status.*online*"
+        },
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "presentation": {
+        "reveal": "always",
+        "focus": false,
+        "panel": "dedicated"
+      }
+    },
+    {
+      "label": "ng serve",
+      "type": "shell",
+      "command": "ng serve",
+      "dependsOn": "ng build",
+      "isBackground": true,
+      "problemMatcher": {
+        "owner": "angular",
+        "fileLocation": [
+          "relative",
+          "${workspaceFolder}"
+        ],
+        "pattern": [
+          {
+            "regexp": "^(.+):\\[(\\d+),\\s*(\\d+)\\]:\\s*(ERROR|WARNING)\\s*-\\s*(.*)$",
+            "file": 1,
+            "line": 2,
+            "column": 3,
+            "severity": 4,
+            "message": 5
+          }
+        ],
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": ".*Changes detected.*",
+          "endsPattern": ".*bundle generation complete.*"
+        },
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "presentation": {
+        "reveal": "always",
+        "focus": false,
+        "panel": "dedicated"
+      }
+    },
+    {
+      "label": "ng build",
+      "dependsOn": "watch common",
+      "type": "shell",
+      "command": "ng build @talk2resume/client",
+      "problemMatcher": {
+        "owner": "angular",
+        "fileLocation": [
+          "relative",
+          "${workspaceFolder}"
+        ],
+        "pattern": {
+          "regexp": "^(.*):\\s*(\\d+):\\s*(\\d+) -\\s*(error|warning)\\s*(.*)$",
+          "file": 1,
+          "line": 2,
+          "column": 3,
+          "severity": 4,
+          "message": 5
+        }
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "presentation": {
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared"
+      }
+    },
+    {
+      "label": "docker: Chroma-DB",
+      "type": "shell",
+      "command": "docker run --rm -p 8000:8000 --name chromadb chromadb/chroma",
+      "isBackground": true,
+      "problemMatcher": {
+        "owner": "Chroma DB",
+        "pattern": [
+          {
+            "regexp": "^(.+):\\[(\\d+),\\s*(\\d+)\\]:\\s*(ERROR|WARNING)\\s*-\\s*(.*)$",
+            "file": 1,
+            "line": 2,
+            "column": 3,
+            "severity": 4,
+            "message": 5
+          }
+        ],
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": ".*",
+          "endsPattern": ".*Application startup complete*"
+        },
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "presentation": {
+        "reveal": "always",
+        "focus": false,
+        "panel": "dedicated"
+      }
+    },
+    {
+      "label": "mongodb",
+      "type": "shell",
+      "command": "mongod",
+      "isBackground": true,
+      "dependsOn": "docker: Chroma-DB",
+      "problemMatcher": {
+        "owner": "angular",
+        "pattern": [
+          {
+            "regexp": "^(.+):\\[(\\d+),\\s*(\\d+)\\]:\\s*(ERROR|WARNING)\\s*-\\s*(.*)$",
+            "file": 1,
+            "line": 2,
+            "column": 3,
+            "severity": 4,
+            "message": 5
+          }
+        ],
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": ".*",
+          "endsPattern": ".*Waiting for connections*"
+        },
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "presentation": {
+        "reveal": "always",
+        "focus": false,
+        "panel": "dedicated"
+      }
+    },
+    {
+      "label": "watch env",
+      "type": "shell",
+      "dependsOn": "mongodb",
+      "command": "npm run generate-env:watch -w=@talk2resume/client",
+      "isBackground": true,
+      "problemMatcher": {
+        "owner": "dotenv",
+        "fileLocation": [
+          "relative",
+          "${workspaceFolder}"
+        ],
+        "pattern": {
+          "regexp": "^(.*):\\s*(\\d+):\\s*(\\d+) -\\s*(error|warning)\\s*(.*)$",
+          "file": 1,
+          "line": 2,
+          "column": 3,
+          "severity": 4,
+          "message": 5
+        },
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": ".*tsx generate.*",
+          "endsPattern": ".*Environment file generated successfully.*"
+        },
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "presentation": {
+        "reveal": "always",
+        "focus": true,
+        "panel": "shared"
+      }
+    },
+    {
+      "label": "watch types",
+      "type": "shell",
+      "command": "npm run watch -w=@talk2resume/types",
+      "isBackground": true,
+      "dependsOn": "watch env",
+      "problemMatcher": {
+        "owner": "tsc",
+        "fileLocation": [
+          "relative",
+          "${workspaceFolder}"
+        ],
+        "pattern": {
+          "regexp": "^(.*):\\s*(\\d+):\\s*(\\d+) -\\s*(error|warning)\\s*(.*)$",
+          "file": 1,
+          "line": 2,
+          "column": 3,
+          "severity": 4,
+          "message": 5
+        },
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": ".*Building Angular Package.*",
+          "endsPattern": ".*Angular Package.*"
+        },
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "presentation": {
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared"
+      }
+    },
+    {
+      "label": "watch common",
+      "type": "shell",
+      "command": "npm run watch -w=@talk2resume/common",
+      "isBackground": true,
+      "dependsOn": "watch types",
+      "problemMatcher": {
+        "owner": "tsc",
+        "fileLocation": [
+          "relative",
+          "${workspaceFolder}"
+        ],
+        "pattern": {
+          "regexp": "^(.*):\\s*(\\d+):\\s*(\\d+) -\\s*(error|warning)\\s*(.*)$",
+          "file": 1,
+          "line": 2,
+          "column": 3,
+          "severity": 4,
+          "message": 5
+        },
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": ".*Building Angular Package.*",
+          "endsPattern": ".*Built @talk2resume/common.*"
+        },
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "presentation": {
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared"
+      }
+    },
+  ]
+}

@@ -1,0 +1,4 @@
+tunnels:
+  talk2resume_client:
+    proto: http
+    addr: talk2resume_client:4200

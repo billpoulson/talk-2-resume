@@ -1,0 +1,30 @@
+:host {
+  // display: flex;
+  background-color: rgba($color: #ffffff, $alpha: 0.05);
+  @apply rounded-md;
+  width: 100%;
+}
+
+.channel-list-item {
+  &__card {
+    @apply mb-1;
+  }
+  &__list-item-container {
+    @apply flex justify-between items-center;
+  }
+  &__text-container {
+    @apply flex flex-col grow ml-5;
+  }
+  &__button-container {
+    display: flex;
+    justify-content: flex-end;
+  }
+}
+
+.rounded-image-container {
+  @apply size-10 rounded-full overflow-hidden; /* Size, rounded corners, and container styling */
+}
+
+.rounded-image {
+  @apply w-full h-full object-cover; /* Make the image fit and preserve aspect ratio */
+}

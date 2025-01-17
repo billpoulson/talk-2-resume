@@ -1,0 +1,8 @@
+mat-form-field {
+  &.full-width {
+    width: 100%;
+    div {
+      border-radius: 0;
+    }
+  }
+}

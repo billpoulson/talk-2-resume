@@ -1,0 +1,30 @@
+<mat-toolbar>
+  <mat-toolbar-row class="border-botttom-1px-white">
+    <div>
+      <mat-icon aria-hidden="false" aria-label="Example home icon"
+        >local_shipping</mat-icon
+      >&nbsp; Space Trucker Profile
+    </div>
+    <span class="expand-block"></span>
+    <button mat-stroked-button color="primary" appGoBack>
+      Back
+    </button>
+  </mat-toolbar-row>
+
+  <mat-toolbar-row>
+    <h1 class="text-3xl font-bold">
+      Logged In as
+      <app-current-username />
+    </h1>
+  </mat-toolbar-row>
+</mat-toolbar>
+
+<mat-card class="example-card" appearance="outlined">
+  <mat-card-content>
+    <button mat-outlined-button [matMenuTriggerFor]="menu">Menu</button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item>Item 1</button>
+      <button mat-menu-item>Item 2</button>
+    </mat-menu>
+  </mat-card-content>
+</mat-card>

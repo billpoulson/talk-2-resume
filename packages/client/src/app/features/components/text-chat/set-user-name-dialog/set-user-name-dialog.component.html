@@ -1,0 +1,10 @@
+<mat-dialog-content>
+  <p>Select a user name</p>
+  <mat-form-field>
+    <mat-label>name</mat-label>
+    <input matInput [(ngModel)]="name" />
+  </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button color="primary" mat-button [mat-dialog-close]="name" cdkFocusInitial>Ok</button>
+</mat-dialog-actions>

@@ -1,0 +1,27 @@
+<mat-card appearance="outlined" class="tab-card">
+  <mat-toolbar-row class="border-botttom-1px-white border-top-1px-white">
+    <mat-card-header>
+      <mat-card-title> Chat </mat-card-title>
+    </mat-card-header>
+    <!-- <span class="expand-block"></span>
+    <app-start-fake-request-button />
+    <button mat-stroked-button (click)="openChannelList()">Channels</button> -->
+  </mat-toolbar-row>
+
+  <mat-card-content class="no-horizontal-padding">
+    <mat-tab-group
+      mat-stretch-tabs="false"
+      mat-align-tabs="start"
+      *ngIf="socketConnectionStatus | async; else notConnected"
+    >
+      <mat-tab *ngFor="let channel of channels$ | async" label="{{ channel }}">
+        <app-chat-channel [channel]="channel" />
+      </mat-tab>
+    </mat-tab-group>
+  </mat-card-content>
+</mat-card>
+<ng-template #notConnected>
+  <app-not-connected />
+</ng-template>
+<app-channel-list-modal-activator [activatedByRoute]="false" />
+<router-outlet name="modal" />

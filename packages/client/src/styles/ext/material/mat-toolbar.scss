@@ -1,0 +1,12 @@
+mat-toolbar-row {
+  *:not(div):not(span) {
+    &:not(:first-child){
+      // Applies to every instance except the first
+      margin-left: 10px;
+    }
+  }
+}
+
+mat-toolbar-row + mat-card {
+  border-bottom: none;
+}

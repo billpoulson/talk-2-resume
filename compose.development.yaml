@@ -1,0 +1,74 @@
+services:
+  talk2resume_client:
+    build:
+      context: .
+      dockerfile: dockerfile.client
+    depends_on:
+      - talk2resume_api
+    image: talk2resume/client
+    init: true
+    volumes:
+      - type: bind
+        source: /var/run/docker.sock
+        target: /var/run/docker.sock
+    ports:
+      - '4201:4200'
+    environment:
+      NODE_ENV: ${NODE_ENV}
+      DOTENV_KEY: ${DOTENV_KEY_CLIENT} # Provided in deploy-script
+
+  talk2resume_api:
+    build:
+      context: .
+      dockerfile: dockerfile.api
+    depends_on:
+      - chromadb
+      - mongodb
+      - ollama
+    image: talk2resume/api
+    init: true
+    volumes:
+      - type: bind
+        source: /var/run/docker.sock
+        target: /var/run/docker.sock
+    ports:
+      - '8080:8080'
+    environment:
+      NODE_ENV: ${NODE_ENV} # Provided in deploy-script
+      DOTENV_KEY: ${DOTENV_KEY_API} # Provided in deploy-script
+
+  chromadb:
+    image: chromadb/chroma
+    volumes:
+      - type: bind
+        source: /var/run/docker.sock
+        target: /var/run/docker.sock
+
+  mongodb:
+    image: mongo
+    volumes:
+      - type: bind
+        source: /var/run/docker.sock
+        target: /var/run/docker.sock
+
+  ollama:
+    image: ollama/ollama
+    volumes:
+      - type: bind
+        source: /var/run/docker.sock
+        target: /var/run/docker.sock
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    runtime: nvidia
+  
+  ngrok:
+    image: ngrok/ngrok:latest
+    environment:
+      - NGROK_AUTHTOKEN=${NGROK_TOKEN}
+    command: http host.docker.internal:4201
+

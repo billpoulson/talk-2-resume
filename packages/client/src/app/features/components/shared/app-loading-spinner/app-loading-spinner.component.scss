@@ -1,0 +1,30 @@
+.loading-spinner {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.85);
+  z-index: 1000;
+  animation: pulseBackground 3s infinite;
+  @apply rounded-2xl rounded-t-none;
+}
+@keyframes pulseBackground {
+  0% {
+    background-color: rgba(0, 0, 0, 0.85);
+  }
+  50% {
+    background-color: rgba(0, 0, 0, 0.95);
+  }
+  100% {
+    background-color: rgba(0, 0, 0, 0.85);
+  }
+}
+.global {
+  min-height: 500px;
+  min-width: 500px;
+}

@@ -1,0 +1,19 @@
+{
+  "/api": {
+    "target": "http://talk2resume_api:8181/",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug",
+    "pathRewrite": {
+      "^/api": ""
+    }
+  },
+  "/wss": {
+    "target": "ws://talk2resume_api:8181/",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug",
+    "pathRewrite": {
+    }
+  }
+}

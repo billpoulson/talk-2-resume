@@ -1,0 +1,8 @@
+.git
+.env*
+!.env.vault
+.flaskenv*
+!.env.project
+package-lock.json
+node_modules
+**/node_modules/

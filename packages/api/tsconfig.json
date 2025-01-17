@@ -1,0 +1,22 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "commonjs",
+    "outDir": "../../dist/talk2resume/api",
+    "moduleResolution": "node",
+    "strict": true,
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "declaration": true,
+    "paths": {
+      "@talk2resume/common": [
+        "../common/src/public-api.ts"
+      ],
+      "@talk2resume/types": [
+        "../types/src/public-api.ts"
+      ]
+    },
+  },
+}

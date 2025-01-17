@@ -1,0 +1,33 @@
+mat-tab-group {
+  mat-tab-body {
+    mat-card:first-child.tab-card {
+      @apply rounded-t-none border-t-0;
+    }
+  }
+}
+
+mat-tab-header {
+  position: relative; /* Required for pseudo-element positioning */
+}
+
+mat-tab-header::after {
+  content: ""; /* Creates the pseudo-element */
+  position: absolute;
+  bottom: 0; /* Align at the bottom */
+  left: 0;
+  right: 0;
+  height: 4px; /* Thickness of the glow */
+  box-shadow: 0 2px 30px rgba(255, 255, 255, 0.6); /* Inner glow effect */
+  pointer-events: none; /* Prevent interaction with the pseudo-element */
+}
+
+div[role="tab"]:hover {
+  opacity: 0.7; /* Optional: Change opacity on hover */
+}
+div[role="tab"] {
+  border-top: 1px solid rgba(229, 231, 235, 0.1);
+  border-right: 1px solid rgba(229, 231, 235, 0.1);
+  // opacity: 0.3; /* Adjust opacity of the element */
+  transition: opacity 0.3s ease; /* Optional: Smooth transitions */
+  margin-right: 3px;
+}

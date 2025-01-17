@@ -1,0 +1,23 @@
+<li class="app-chat-channel-message">
+  <mat-card [class]="getStyles(bem('card'))">
+    <mat-card-content [class]="bem('container')">
+      <div [class]="bem('image-container')">
+        <img
+          [src]="
+            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTQRSngbbo6RfozMzK5OsRL9bDgnx4vZiP2Jw&s'
+          "
+          alt="Rounded Image"
+        />
+      </div>
+      <div [class]="bem('message-container')">
+        <div [class]="bem('message-header-content')">
+          <b>{{ data.user }}</b>
+          <span [class]="bem('message-timestamp')">
+            {{ this.getMessageDate() }}
+          </span>
+        </div>
+        <div [innerHTML]="aax"></div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</li>

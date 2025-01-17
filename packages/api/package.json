@@ -1,0 +1,22 @@
+{
+  "name": "@talk2resume/api",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "ts-node -r tsconfig-paths/register src/index.ts",
+    "debug": "ts-node -r tsconfig-paths/register src/index.ts --inspect",
+    "build": "npx tsc --build",
+    "watch": "nodemon  --exec npm run start",
+    "watch:debug": "nodemon --exec npm run debug",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dotenv-pull": "npx dotenv-vault@latest pull",
+    "dotenv-push": "npx dotenv-vault@latest push",
+    "dotenv:build": "npx dotenv-vault@latest build"
+  },
+  "dependencies": {
+    "@talk2resume/types": "^0.0.1",
+    "dotenv-cli": "^8.0.0",
+    "fake-indexeddb": "^6.0.0",
+    "node-fetch": "^3.3.2",
+    "tsyringe": "^4.8.0"
+  }
+}

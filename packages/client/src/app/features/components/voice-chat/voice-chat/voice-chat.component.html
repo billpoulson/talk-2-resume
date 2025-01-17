@@ -1,0 +1,19 @@
+<ng-container>
+  <div *ngIf="viewState$() | async as state">
+    <button
+      *ngIf="state.showConnect; else disconnectButton"
+      mat-stroked-button
+      (click)="createOffer()"
+    >
+      Start Call
+      <mat-icon>call</mat-icon>
+    </button>
+    <ng-template #disconnectButton>
+      <button #disconnectButton mat-stroked-button (click)="endCall()">
+        End Call
+        <mat-icon>phone_in_talk</mat-icon>
+      </button>
+    </ng-template>
+  </div>
+  <audio autoplay [srcObject]="p2pStream.remoteStream"></audio>
+</ng-container>

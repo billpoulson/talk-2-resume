@@ -1,0 +1,116 @@
+﻿William Poulson
+Senior Software Engineer
+Poulson.Bill@Gmail.com
+ 616-402-3345
+
+William Poulson is a seasoned Senior Software Engineer with extensive experience in software development, architecture, and DevOps, particularly in green-field projects. His career spans over two decades, starting with technical and customer support roles, transitioning into application development, and culminating in senior and lead developer positions. His expertise covers a wide range of technologies, including .NET/CORE/Framework, Angular, React, ASP.NET, MVC, Entity Framework, SQL, nodejs, JavaScript, Kotlin, Python, shell and more. Poulson has demonstrated a strong proficiency in front-end and back-end development, cloud computing, database management, and dev-ops practices, evidenced by his use of GitHub Actions, Terraform, Docker, and Google Cloud/Azure.
+
+
+Recommendations:
+  
+  
+
+  
+
+  
+
+
+
+Experience:
+
+
+Aug 2024 – Jan 2025 
+Costar Real Estate Manager (contractor)
+Senior Angular Developer (Fully Remote) 
+* Client App feature development using Angular 18/19
+* .net core backend (signalR/mediatR)
+* worked with the team of developers to produce ui for client facing application
+* provided direction on async/observable coding practices
+* took part in implementing custom application component library (primitive components)
+* fixed angular zone issues with custom component library
+* architected solutions using new and existing implementations
+* applied rxjs heavily
+
+
+Feb 2021 – May 2024 
+Kyros Digital (under contract to Gordon Food Service)
+Senior Angular Developer (Remote) 
+* Custom App development Lead using Angular
+* Custom App development using React
+* Responsible for full SDLC
+* used github actions to build and deploy application containers
+* created terraform script to provision and manage google cloud resources
+* created base project for organization to build custom projects from
+   * utilized postgres, next, react, tailwind
+   * supported multi-tenancy
+   * supported white-labeling
+   * fully provision cloud project in moments (with ssl/tls support)
+* built dockerized development environment and additional cloud resources to facilitate onboarding of new developer resources in a turn-key way
+* built google document ai solution for labeling invoices and integrating with property management SAAS providers
+   * required replication and synchronization of remote data
+* created custom integration service to house app business logic
+   * webhook support
+   * message bus support
+   * http
+   * websockets
+   * smoke signals
+* re-engineered major front end angular/rxjs components that were maxing the cpu in large datasets
+* refactored multiple angular projects to a mono-repo pattern with shared resources
+* re-engineered backend to reduce volume of calls needed from front-end to backend
+   * produced realtime product pricing with nearly unlimited measurement unit subdivision
+* general application maintenance and housekeeping
+* mentoring junior/mid level devs
+* extensive work with rxjs
+* some kotlin experience
+
+
+
+Oct 2018 – Apr 2020
+Spectrum Health
+Senior Developer (Remote)
+
+
+   * App Feature development using Angular components and .net core api
+   * Worked to Reduced complexity
+   * general application maintenance
+   * Front End Development with Angular framework ( kept pace with releases up to v9)
+
+
+Dec 2015 – Sept 2018
+Montage Furniture Services
+Lead Developer/Solution Architect (Onsite & Remote at discretion)
+
+
+   * Design and Implementation of web applications
+   * Asp.net WebAPI and Odata development
+   * Entity framework implementation utilized data migrations for ease of upgrade/downgrade
+   * Design and implementation of scalable high performance distributed architecture to reduce code and prevent bottlenecks in a multi-tenant multi-user environment
+   * Highly configurable with dependency injection and IOC (autofac)
+   * Applied Solid principles
+   * Handled both synchronous and asynchronous calls via message queueing (rebus w/
+azure service bus)
+   * Implemented Triage queue debug process for message bus so that hotfixes could be
+applied without disrupting message processing
+   * Spearheaded development of new projects establishing standards and guidelines that
+are in line with application architecture and future state
+   * Worked with developers to determine long term viability of plugins and add ins used in
+front and backend
+   * Front End Development with JQuery, Angular JS, Angular 2+
+
+
+
+
+Additional History
+   * Jul 2015 - PatternSpace.co: Lead developer for a social collaboration platform for 3D printing; focused on automated testing, AWS deployment, and AngularJS frontend.
+   * Sept 2014 - Jul 2015: Break for training.
+   * Jan 2013 - Sept 2014 - Last Second Ads, LLC: Senior developer for an advertising platform linking media to advertisers; led UI projects, improved deployment processes, and implemented GIT for source control.
+   * Jul 2012 - CogsMedia, LLC: Short-term senior developer role for a political communications platform; project faced funding issues.
+   * Feb 2012 - Jun 2012 - Atkins Professional Services: Lead developer on a SAAS system for pet service businesses, responsible for full stack development.
+   * Oct 2011 - Jan 2012 - Squared Out: Developed custom UI widgets/plugins for a calendar application.
+   * Dec 2010 - Feb 2011 - Fugue Science: Lead UI developer for a short-lived fitness tracking startup; focused on ASP.NET MVC2/3 and frontend development.
+   * Jul 2010 - Oct 2010 - JAWOOD/NASCO: Senior application developer for health insurance systems with a focus on testability and front-end development.
+   * Jan 2008, Apr 2009 - Jul 2009 - JR Automation: Full-stack development of web portals and ERP systems, including UI design and database management.
+   * Apr 2008 - Mar 2009 - Information Systems Group: Developed community and intranet sites using a custom CMS; focused on database administration and LINQ for data access.
+   * Jul 2007 - Oct 2007 - Integra Printing: Developed company intranet and a small Windows application for industrial printer job management.
+   * Feb 2006 - Jan 2007 - SpringThrough: Custom .NET application development with a focus on database management and performance analysis.
+   * 2004 - 2005 - Netpenny.Net, Inc.: Technical and customer support role with development of SQL database applications and network administration.

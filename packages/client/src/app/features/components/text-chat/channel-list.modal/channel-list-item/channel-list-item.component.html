@@ -1,0 +1,21 @@
+<mat-card [class]="bem('card')">
+  <mat-card-content>
+    <!-- <div [class]="bem('image')"></div> -->
+    <div [class]="bem('list-item-container')">
+      <div class="rounded-image-container">
+        <img [src]="'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTQRSngbbo6RfozMzK5OsRL9bDgnx4vZiP2Jw&s'" alt="Rounded Image" class="rounded-image" />
+      </div>
+      <div [class]="bem('text-container')">
+        <span matListItemTitle>{{ data.l1 }}</span>
+        <span matListItemLine>{{ data.l2 }}</span>
+      </div>
+      <div [class]="bem('button-container')">
+        <app-start-fake-request-button
+          text="Join"
+          icon="message"
+          duration="5000"
+        />
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

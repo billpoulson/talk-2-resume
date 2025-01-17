@@ -1,0 +1,11 @@
+mat-spinner {
+  &.center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 100px; /* Add 100px padding around the spinner */
+    height: 100%; /* Ensure it takes up the full height of the content */
+    box-sizing: border-box; /* Include padding in size calculation */
+    justify-self: center;
+  }
+}

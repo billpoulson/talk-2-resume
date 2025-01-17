@@ -1,0 +1,16 @@
+{
+  "name": "@talk2resume/types",
+  "version": "0.0.1",
+  "scripts": {
+    "build": "tsc --build tsconfig.lib.json",
+    "watch": "nodemon --watch src --ext ts,json --exec ng build @talk2resume/types"
+  },
+  "peerDependencies": {
+    "@angular/common": "^19.0.0",
+    "@angular/core": "^19.0.0"
+  },
+  "dependencies": {
+    "tslib": "^2.3.0"
+  },
+  "sideEffects": false
+}

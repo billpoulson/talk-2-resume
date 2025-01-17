@@ -1,0 +1,27 @@
+<div [class]="bem('container')">
+  <div [class]="bem('user-list')">
+    <p [class]="bem('user-name')" *ngFor="let n of channelusers | async">
+      {{ n }}
+    </p>
+  </div>
+  <div #aaa [class]="bem('channel-messages')">
+    <ul>
+      <app-chat-message
+        *ngFor="let message of chatService.getChannelMessages(channel())"
+        [data]="message"
+      />
+    </ul>
+  </div>
+</div>
+<mat-form-field appearance="fill" class="full-width">
+  <mat-label>Message</mat-label>
+  <input
+    #messageInput
+    matInput
+    [type]="'text'"
+    (keydown.enter)="sendMessage(messageInput, channel(), $event)"
+  />
+  <button mat-icon-button matSuffix>
+    <mat-icon>message</mat-icon>
+  </button>
+</mat-form-field>
