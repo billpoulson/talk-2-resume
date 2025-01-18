@@ -6,6 +6,7 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { authHttpInterceptorFn } from '@auth0/auth0-angular'
 import { appInitFn } from './app.init'
 import { routes } from './app.routes'
+import { FileUploadInterceptor } from './features/interceptors/file-upload.interceptor'
 import { LoadingInterceptor } from './features/interceptors/loading-interceptor.interceptor'
 
 
@@ -18,6 +19,11 @@ export const appConfig: ApplicationConfig = {
     {
       provide: HTTP_INTERCEPTORS,
       useClass: LoadingInterceptor,
+      multi: true
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: FileUploadInterceptor,
       multi: true
     },
     provideHttpClient(

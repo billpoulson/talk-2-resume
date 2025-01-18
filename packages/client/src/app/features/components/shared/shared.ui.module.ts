@@ -9,9 +9,11 @@ import { AppLoadingSpinnerComponent } from './app-loading-spinner/app-loading-sp
 import { CardActionsExampleContent } from './card-example-content/card-example.component'
 import { ConnectWebServiceButtonComponent } from './connect-webservice-button/connect-webservice.component'
 import { CurrentUsernameComponent } from './current-username/current-username.component'
+import { FileUploadComponent } from './file-upload/file-upload.component'
 import { LogOutButtonComponent } from './log-out-button/log-out-button.component'
 import { TypographyComponent } from './primitive/typography/typography.component'
 import { StartFakeRequestButtonComponent } from './start-fake-request-button/start-fake-request-button.component'
+import { UploadProgressBarComponent } from './upload-progress-bar/upload-progress-bar.component'
 import { UserProfileComponent } from './user-profile/callback.component'
 
 const sharedComponents = [
@@ -23,7 +25,9 @@ const sharedComponents = [
   CurrentUsernameComponent,
   AppLoadingSpinnerComponent,
   StartFakeRequestButtonComponent,
-  LogOutButtonComponent
+  LogOutButtonComponent,
+  FileUploadComponent,
+  UploadProgressBarComponent
 ]
 
 @NgModule({
@@ -34,7 +38,8 @@ const sharedComponents = [
     RouterModule,
   ],
   declarations: sharedComponents,
-  exports: [...sharedComponents]
+  exports: [...sharedComponents],
+  providers: [UploadProgressBarComponent]
 })
 export class SharedUIComponentsModule { }
 

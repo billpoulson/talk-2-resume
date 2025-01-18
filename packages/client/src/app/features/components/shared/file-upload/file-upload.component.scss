@@ -1,0 +1,12 @@
+.file-upload {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+mat-progress-bar {
+  width: 100%;
+}

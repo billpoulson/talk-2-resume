@@ -1,5 +1,6 @@
 export * from './lib/app-controller'
 export * from './lib/async'
+export * from './lib/http'
 export * from './lib/mesh'
 export * from './lib/mongodb.extensions'
 export * from './lib/numerics'

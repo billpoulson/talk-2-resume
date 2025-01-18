@@ -1,0 +1,4 @@
+<input type="file" multiple (change)="onFilesSelected($event)" />
+<div *ngFor="let file of uploadProgress">
+  <p>{{ file.file }}: {{ file.progress }}% ({{ file.status }})</p>
+</div>

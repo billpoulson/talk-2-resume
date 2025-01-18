@@ -1,8 +1,8 @@
 import { OllamaServiceSettings } from '@talk2resume/common'
 import { Ollama } from 'ollama'
 import { DependencyContainer, inject, singleton } from 'tsyringe'
-import { SCOPED_CONTAINER$$ } from './ioc/injection-tokens'
-import { ExpressServerContainer } from './server/http/express-server-container'
+import { ExpressServerContainer } from '../../server/http/express-server-container'
+import { SCOPED_CONTAINER$$ } from '../injection-tokens'
 
 @singleton()
 export class RootEntryPoint {

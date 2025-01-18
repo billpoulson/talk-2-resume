@@ -11,7 +11,7 @@
   background-color: rgba(0, 0, 0, 0.85);
   z-index: 1000;
   animation: pulseBackground 3s infinite;
-  @apply rounded-2xl rounded-t-none;
+  @apply rounded-2xl rounded-t-none p-12;
 }
 @keyframes pulseBackground {
   0% {
@@ -27,4 +27,47 @@
 .global {
   min-height: 500px;
   min-width: 500px;
+}
+
+.uploadList {
+  @apply w-full;
+}
+
+.progress-container {
+  @apply flex m-8;
+}
+.upload-list-item {
+  @apply flex flex-col mb-4 bg-neutral-600 p-2;
+}
+
+.status-indicator {
+  @apply flex items-center text-lime-500;
+}
+.status-detail {
+  @apply ml-1 grow;
+}
+
+li.upload-list-item.complete {
+  animation: fadeOut 1s ease-out 1 forwards;
+}
+.status-detail__file-info {
+  @apply flex text-xs items-end;
+}
+.cancel-button-container {
+  @apply mt-4 mb-2;
+}
+.status-row {
+  @apply my-2
+}
+mat-card-header {
+  @apply mb-8;
+}
+@keyframes fadeOut {
+  0% {
+    opacity: 3;
+  }
+  100% {
+    opacity: 0;
+    display: none;
+  }
 }

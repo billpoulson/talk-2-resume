@@ -1,3 +1,5 @@
+@use '@angular/material' as mat;
+
 button + button {
   &:not([role="menuitem"]) {
     margin-left: 10px !important; /* Add margin-left only when preceded by another Material button */
@@ -7,3 +9,11 @@ button + button {
 //   margin-left: 16px !important; /* Add margin-left only when preceded by another Material button */
 //   padding-left: 16px !important; /* Add margin-left only when preceded by another Material button */
 // }
+
+
+button[small-button] {
+  font-size: 12px; // Adjust font size
+  padding: 4px 8px; // Adjust padding
+  // min-width: 32px; // Adjust minimum width
+  height: 24px; // Adjust height
+}

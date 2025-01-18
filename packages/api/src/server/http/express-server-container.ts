@@ -1,9 +1,9 @@
+import bodyParser from 'body-parser'
 import cors from 'cors'
 import express from 'express'
 import { auth } from 'express-oauth2-jwt-bearer'
 import { Server } from 'http'
 import { DependencyContainer, inject, singleton } from 'tsyringe'
-import { AppDbContext } from '../../db/jsondb/core/context'
 import {
   EXPRESS_APP$$,
   EXPRESS_SERVER$$, SCOPED_CONTAINER$$, STATIC_CONTENT_PATH$$
@@ -13,10 +13,8 @@ import { AppConfig } from '../../server/app-config'
 import { JWTTokenAuthenticationService } from '../../services/security/jwt-token-authentication-service'
 import { WebSocketServer } from '../socket$/websocket.server'
 import { ControllerInitializer } from './controller.registry'
-import routdd from './controllers/balance.controller'
-import pingRouteModule from './controllers/smoke-test.controller'
 import { corsWhitelist } from './cors-whitelist'
-
+import { userProfileCacheMiddleware } from './userProfileCacheMiddleware'
 @singleton()
 export class ExpressServerContainer {
   public app = express()
@@ -24,9 +22,9 @@ export class ExpressServerContainer {
   public server!: Server
   oauth2Middleware: express.Handler
   corsMiddleware: express.Handler
+
   constructor(
     @inject(SCOPED_CONTAINER$$) public scope: DependencyContainer,
-    private appDb: AppDbContext,
     private appConfig: AppConfig,
     private tokenAuthService: JWTTokenAuthenticationService,
     @inject(AUTH_AUDIENCE$$) audience: string,
@@ -53,20 +51,14 @@ export class ExpressServerContainer {
   }
 
   public async init() {
-
     this.app = express()
+      .use(bodyParser.urlencoded({ extended: true }))
       .use(express.static(this.staticContentPath))
       .use(this.oauth2Middleware)
       .use(this.corsMiddleware)
-      .use(express.json())
       .options('*', this.corsMiddleware)
-      .use(async (req: any, res, next) => {
-        const userProfile = await this.tokenAuthService.getUserInfo(req.auth.token)
-        req.userProfile = userProfile
-        next()
-      })
-      .use('/test', routdd(this.scope))
-      .use('/_', pingRouteModule(this.scope))
+      .use(express.json())
+      .use(userProfileCacheMiddleware(this.tokenAuthService))
 
     this.scope
       .register(EXPRESS_SERVER$$, {
@@ -78,10 +70,9 @@ export class ExpressServerContainer {
         useFactory: () => this.app
       })
 
-    await this.appDb.init()
-    this.db = this.appDb.loginsDB
-
     this.scope.resolve(WebSocketServer)
     this.scope.resolve(ControllerInitializer)
   }
+
+
 }

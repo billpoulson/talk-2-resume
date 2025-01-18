@@ -2,7 +2,6 @@ import { MQ } from '@talk2resume/common'
 import { ConnectionAuthorizationData } from '@talk2resume/types'
 import { injectable } from 'tsyringe'
 import WebSocket from 'ws'
-import { LoginsRepo } from '../../../../db/jsondb/login.repo'
 
 import { HeroRepository } from '../../../../db/mongodb/repo/hero.repo'
 import { OllamaRAGService } from '../../../ai/ollama-rag.service'
@@ -17,7 +16,6 @@ export class AuthorizationResponseEmitter {
     { send }: ClientWebsocketReference,
     ws: WebSocket,
     public mq: MQ,
-    public repoImpl: LoginsRepo,
     heroRepo: HeroRepository,
     ragService: OllamaRAGService
   ) {
@@ -42,6 +40,5 @@ export class AuthorizationResponseEmitter {
     ws.on('close', () => { console.log('WebSocket connection closed.') })
 
     send(authorization)
-    // repoImpl.incrementLoginCount(authorization.connectionId.toString())
   }
 }

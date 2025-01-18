@@ -52,8 +52,7 @@
       "configurations": [
         "Debug API",
         "Launch Chrome against localhost"
-      ],
-      "preLaunchTask": "ngrok"
+      ]
     }
   ]
 }

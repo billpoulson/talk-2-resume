@@ -1,5 +1,51 @@
-<div class="loading-spinner" *ngIf="isLoading | async">
-  <mat-progress-spinner mode="indeterminate" diameter="50">
-  </mat-progress-spinner>
-  <h1>LOADING</h1>
+<div class="loading-spinner" *ngIf="hasNetworkActivity()">
+  <ng-container *ngIf="!isUploading(); else uploading">
+    <mat-progress-spinner mode="indeterminate" diameter="50">
+    </mat-progress-spinner>
+    <h1>LOADING</h1>
+  </ng-container>
+
+  <ng-template #uploading>
+    <mat-card class="w-full">
+      <mat-card-header>
+        <mat-card-title>Upload In Progress</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <h1 *ngIf="!isUploading()">Finishing Upload</h1>
+        <ul class="uploadList">
+          <li
+            *ngFor="let status of loaders(); trackBy: trackByRef"
+            [class.complete]="status.complete || status.cancelled"
+            class="upload-list-item"
+          >
+            <div class="flex status-row">
+              <div class="status-indicator">
+                <mat-icon *ngIf="status.complete"> check_box </mat-icon>
+              </div>
+              <div class="status-detail">
+                {{ status.name }}
+              </div>
+              <div class="status-detail__file-info">
+                {{ status.data_progress }}
+              </div>
+            </div>
+            <mat-progress-bar value="{{ status.progress }}" />
+            <div class="flex cancel-button-container">
+              <div class="flex grow"></div>
+              <button
+                *ngIf="!status.complete"
+                mat-stroked-button
+                small-button
+                color="primary"
+                (click)="cancelUpload(status)"
+              >
+                Cancel
+              </button>
+            </div>
+          </li>
+        </ul>
+      </mat-card-content>
+    </mat-card>
+  </ng-template>
 </div>
+<ng-template #incomplete> </ng-template>

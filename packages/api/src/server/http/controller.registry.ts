@@ -1,8 +1,9 @@
 import { Express } from 'express'
 import { DependencyContainer, inject, singleton } from 'tsyringe'
 
-import { EXPRESS_APP$$, SCOPED_CONTAINER$$ } from '../../ioc/injection-tokens'
-import { routeModules } from './controllers/module'
+import { ExpressRouteDefinition, IExpressRouteFactory } from '@talk2resume/common'
+import { EXPRESS_APP$$, EXPRESS_ROUTE_FACTORY$$, SCOPED_CONTAINER$$ } from '../../ioc/injection-tokens'
+
 
 @singleton()
 export class ControllerInitializer {
@@ -10,6 +11,8 @@ export class ControllerInitializer {
     @inject(SCOPED_CONTAINER$$) public scope: DependencyContainer,
     @inject(EXPRESS_APP$$) public express: Express,
   ) {
-    routeModules.map(([path, fn]) => express.use(path, fn(scope)))
+    this.scope.resolveAll<ExpressRouteDefinition>(EXPRESS_ROUTE_FACTORY$$)
+      .map(({ path, useClass }) => ({ path, route: scope.resolve<IExpressRouteFactory>(useClass).create(scope) }))
+      .reduce((server, { path, route }) => server.use(path, route), express)
   }
 }

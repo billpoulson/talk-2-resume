@@ -7,7 +7,7 @@ import { LoadingStatusService } from '../components/shared/app-loading-spinner/l
 export class LoadingInterceptor implements HttpInterceptor {
   constructor(
     private loadingService: LoadingStatusService
-  ) { 
+  ) {
   }
 
   intercept(
@@ -15,10 +15,12 @@ export class LoadingInterceptor implements HttpInterceptor {
     next: HttpHandler
 
   ): Observable<HttpEvent<unknown>> {
+    const isChunkedUpload = Boolean(request.headers.get('chunked-upload'))
+    if (isChunkedUpload) { return next.handle(request) }
+
     if (request.method === 'OPTIONS') {
       return next.handle(request)
     }
-
     this.loadingService.show(request.url)
 
     return next.handle(request)
@@ -29,3 +31,5 @@ export class LoadingInterceptor implements HttpInterceptor {
       )
   }
 }
+
+

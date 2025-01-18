@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core'
 import { Router } from '@angular/router'
 import { AuthService } from '@auth0/auth0-angular'
 import { catchError, concatMap, finalize, first, firstValueFrom, map, Observable, of, timeout } from 'rxjs'
+import { UploadCancellationService, UploadProgressService } from '../../../../core/services/uploads'
+import { UploadProgressMessage } from '../../../interceptors/file-upload.interceptor'
 import { DEFAULT_LOADING_CONTEXT, LoadingStatusService } from './loading-status.service'
 
 
@@ -10,8 +12,17 @@ import { DEFAULT_LOADING_CONTEXT, LoadingStatusService } from './loading-status.
   providedIn: 'root'
 })
 export class UX {
+  cancelUpload(a: UploadProgressMessage) {
+    this.loadingStatus.hide(a.key)
+    this.uploadCancelService.cancel(a.cancellationToken)
+  }
+
+
+
   constructor(
     private loadingStatus: LoadingStatusService,
+    private uploadProgress: UploadProgressService,
+    private uploadCancelService: UploadCancellationService,
     private authService: AuthService,
     private router: Router
   ) { }
@@ -53,6 +64,12 @@ export class UX {
       )
   }
 
+  subscribeToProgress$() {
+    return this.uploadProgress.subscribeToProgress$()
+  }
+  createIsLoading$(context: string): Observable<boolean> {
+    return this.loadingStatus.createIsLoading$(context)
+  }
   useLoadingStatus$(context: string = DEFAULT_LOADING_CONTEXT) {
     return this.loadingStatus.loading$
       .pipe(map((state) => state?.[context] || false))

@@ -50,3 +50,4 @@ packages/api/*.db.json
 packages/client/src/environment.ts
 
 packages/client/public/Tornado_Escort_Carrier.stl
+packages/api/store
