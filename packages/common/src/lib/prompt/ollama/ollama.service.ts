@@ -4,13 +4,14 @@ import { OllamaServiceSettings } from './ollama.service.settings'
 type ConversationHistoryEntry = { role: string, content: string }
 @injectable()
 export class OllamaService {
+
   history: Array<ConversationHistoryEntry> = []
 
   constructor(
     private settings: OllamaServiceSettings,
     private ollama: Ollama
   ) {
-  
+
   }
 
   setHistory(
@@ -18,7 +19,9 @@ export class OllamaService {
   ) {
     this.history = history
   }
-
+  historypush(arg0: { role: string; content: string }) {
+    this.history.push(arg0)
+  }
   // Generate a response while maintaining conversation history
   async chat() {
     if (this.history.length > 100) { this.history.shift() }

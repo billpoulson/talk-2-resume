@@ -13,7 +13,6 @@ export class ClientWebsocketEntryPoint {
         public commsService: ChatServerService,
         public UserSocketScopedCHAT: UserSocketChat,
         public p2p: P2PConnection,
-        // public promptCompanion: UserSocketChatPrompt
         public ragService: UserSocketRAGChatPrompt,
         public time: ServerTimeEmitter
     ) { }

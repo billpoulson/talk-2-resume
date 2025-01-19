@@ -1,28 +1,26 @@
 import { Injectable } from '@angular/core'
 import { Dictionary } from '@talk2resume/types'
-import { BehaviorSubject, finalize, map, withLatestFrom } from 'rxjs'
-import { LoadingStatusService } from '../../features/components/shared/app-loading-spinner/loading-status.service'
+import { BehaviorSubject, map, Observable, withLatestFrom } from 'rxjs'
 import { UploadProgressMessage } from '../../features/interceptors/file-upload.interceptor'
 
 @Injectable({
   providedIn: 'root'
 })
 export class UploadProgressService {
-  statusSubject = new BehaviorSubject<Dictionary<UploadProgressMessage>>({})
+  private _state = new BehaviorSubject<Dictionary<UploadProgressMessage>>({})
+  progress$: Observable<UploadProgressMessage[]>
   constructor(
     public uploadCancelService: UploadCancellationService,
-    private loadingService: LoadingStatusService
+  ) {
+    this.progress$ = this.createProgressSubject$()
+  }
 
-  ) { }
-
-  clearUploads() { this.statusSubject.next({}) }
-
-  subscribeToProgress$() {
-    return this.statusSubject
+  createProgressSubject$() {
+    return this._state
       .pipe(
         withLatestFrom(this.uploadCancelService.subscribeToCancellation$()),
         map(([state, cancellations]) => Object.values(state)
-          .map(record => ({ ...record, cancelled: cancellations.indexOf(record.cancellationToken) > -1 }))
+          .map(record => ({ ...record, cancelled: cancellations.indexOf(record.cancellationToken) > -1 }) as UploadProgressMessage)
           .filter(state => {
 
             if (state.complete_timestamp === undefined) { return true }
@@ -36,16 +34,15 @@ export class UploadProgressService {
             // keep only items less than 10 seconds old
             return difference < 20
           })
-        ),
-        finalize(() => { })
+        )
       )
   }
 
   setProgress(progress: UploadProgressMessage) {
-    const currentChunkIndex = this.statusSubject.value?.[progress.key]?.meta.chunkIndex ?? 0
+    const currentChunkIndex = this._state.value?.[progress.key]?.meta.chunkIndex ?? 0
     if (progress.meta.chunkIndex > currentChunkIndex) {
-      this.statusSubject.next({
-        ...this.statusSubject.value,
+      this._state.next({
+        ...this._state.value,
         [progress.key]: progress
       })
     }
@@ -60,22 +57,22 @@ export class UploadProgressService {
   providedIn: 'root'
 })
 export class UploadCancellationService {
-  keys = new BehaviorSubject<Dictionary<boolean>>({})
+  private _state = new BehaviorSubject<Dictionary<boolean>>({})
 
   isCancelled(cancellationToken: string) {
-    return Object.keys(this.keys.value).indexOf(cancellationToken) > -1
+    return Object.keys(this._state.value).indexOf(cancellationToken) > -1
   }
   isCancelled$(cancellationToken: string) {
     return this.subscribeToCancellation$().pipe(map(z => z.indexOf(cancellationToken) > -1))
   }
 
   subscribeToCancellation$() {
-    return this.keys.pipe(map(cancelations => Object.keys(cancelations)))
+    return this._state.pipe(map(cancelations => Object.keys(cancelations)))
   }
 
   cancel(cancellationToken: string) {
-    this.keys.next({
-      ...this.keys.value,
+    this._state.next({
+      ...this._state.value,
       [cancellationToken]: true
     })
   }

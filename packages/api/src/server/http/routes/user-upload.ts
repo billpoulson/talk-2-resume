@@ -5,7 +5,7 @@ import fs from 'fs-extra'
 import path from 'path'
 import { DependencyContainer, injectable } from 'tsyringe'
 import { createRequestScopedHandler } from '../../../ioc/scopes/request.scope'
-import { ChunkedUploadHandler } from '../chunked-upload-heandler'
+import { ChunkedUploadHandler } from '../chunked-upload-handler'
 
 @injectable()
 export class UserUploadControllerRouteFactory implements IExpressRouteFactory {

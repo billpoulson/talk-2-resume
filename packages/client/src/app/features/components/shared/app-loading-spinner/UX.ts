@@ -65,7 +65,7 @@ export class UX {
   }
 
   subscribeToProgress$() {
-    return this.uploadProgress.subscribeToProgress$()
+    return this.uploadProgress.createProgressSubject$()
   }
   createIsLoading$(context: string): Observable<boolean> {
     return this.loadingStatus.createIsLoading$(context)

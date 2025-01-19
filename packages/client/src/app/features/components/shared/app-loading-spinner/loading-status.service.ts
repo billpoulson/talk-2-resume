@@ -7,16 +7,10 @@ export const DEFAULT_LOADING_CONTEXT = 'global'
   providedIn: 'root'
 })
 export class LoadingStatusService {
-  uploadStatus = new Map<string, { key: string, group: string, message: string }>
-
-  public getStatusText$ = new BehaviorSubject("")
   private contexts = new BehaviorSubject<{ [key: string]: Dictionary<boolean> }>({});
   public loading$: Observable<{ [key: string]: boolean }>
 
-
   constructor() {
-
-
     this.loading$ =
       this.createLoadingStatus$()
   }

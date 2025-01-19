@@ -11,7 +11,6 @@ import { OllamaEmbeddingFunction } from './embed/ollama-embedding-function'
 @injectable()
 export class OllamaRAGService {
   isLoaded$ = new BehaviorSubject<boolean>(false)
-
   collection!: Collection
 
   constructor(
@@ -21,8 +20,6 @@ export class OllamaRAGService {
     private embeddingFunction: OllamaEmbeddingFunction,
     private chroma: ChromaClient
   ) {
-
-
     this.listAllCollections(embeddingFunction)
 
     this.chroma.getOrCreateCollection({
@@ -51,6 +48,36 @@ export class OllamaRAGService {
         })
       })
     })
+  }
+
+  loadDocumentFromMemory(
+    content: string
+  ): string[] {
+    const chunks: string[] = []
+
+    for (let i = 0; i < content.length; i += this.embedSettings.documentChunkSize) {
+      chunks.push(content.substring(i, i + this.embedSettings.documentChunkSize))
+    }
+
+    return chunks
+  }
+
+  async addToConversationHistory(
+    content: string
+  ) {
+    await firstValueFrom(this.isLoaded$.pipe(isTruthy()))
+    const docUUID = newUUID()
+    const documentChunks = this.loadDocumentFromMemory(content)
+    const documents = [...documentChunks]
+    await this.persistDocumentChunks(docUUID, documents)
+
+    const chunks: string[] = []
+
+    for (let i = 0; i < content.length; i += this.embedSettings.documentChunkSize) {
+      chunks.push(content.substring(i, i + this.embedSettings.documentChunkSize))
+    }
+
+    return chunks
   }
 
   loadDocument(
@@ -123,6 +150,17 @@ export class OllamaRAGService {
 
   private formatId(docUUID: string, index: number): string {
     return `${docUUID}-${index}`
+  }
+}
+
+@injectable()
+export class OllamaRAGScope {
+
+  constructor(
+    private userProfile: UserInfoObject,
+    private rag: OllamaRAGService,
+  ) {
+    
   }
 }
 

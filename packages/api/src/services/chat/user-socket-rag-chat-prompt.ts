@@ -12,25 +12,25 @@ export class UserSocketRAGChatPrompt {
   constructor(
     commsService: ChatServerService,
     mq: MQ,
-    prompt: OllamaService,
-    ragService: OllamaRAGService
+    private ollamaService: OllamaService,
+    private ragService: OllamaRAGService
   ) {
 
     let aiName = new Subject<string>()
 
     merge(
-      from(generateAIBotIdentity(prompt, aiName)),
+      from(generateAIBotIdentity(ollamaService, aiName)),
       // transfer message from user scope into shared chat service scope
       mq.selectTypedMessage(ClientChatMessage)
         .pipe(
           withLatestFrom(aiName),
           tap(([data]) => {
-            prompt.history.push({ role: "user", content: data.message })
+            this.addMessage({ role: "user", content: data.message })
           }),
           tap(async ([data, name]) => {
             await ragService.query(data.message)
               .then(message => {
-                prompt.history.push({ role: "assistant", content: message })
+                this.addMessage({ role: "assistant", content: message })
                 commsService.stream.next({
                   ...data,
                   user: `RAG: ${name}`,
@@ -41,6 +41,11 @@ export class UserSocketRAGChatPrompt {
           }))
     ).subscribe()
 
+  }
+
+  addMessage(message: { role: string, content: string }) {
+    this.ollamaService.historypush(message)
+    this.ragService.addToConversationHistory(`role:\n${message.role}:\ncontent:\n${message.content}`)
   }
 }
 
