@@ -176,6 +176,11 @@
       "dependsOn": "mongodb",
       "command": "npm run generate-env:watch -w=@talk2resume/client",
       "isBackground": true,
+      "options": {
+        "env": {
+          "NODE_ENV": "development"
+        }
+      },
       "problemMatcher": {
         "owner": "dotenv",
         "fileLocation": [
@@ -240,7 +245,7 @@
         "reveal": "always",
         "focus": false,
         "panel": "shared"
-      }
+      },
     },
     {
       "label": "watch common",

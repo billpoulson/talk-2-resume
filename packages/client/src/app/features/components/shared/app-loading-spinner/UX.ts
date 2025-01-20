@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core'
-import { Router } from '@angular/router'
 import { AuthService } from '@auth0/auth0-angular'
-import { catchError, concatMap, finalize, first, firstValueFrom, map, Observable, of, timeout } from 'rxjs'
+import { catchError, concatMap, finalize, first, firstValueFrom, map, Observable, of, tap, timeout } from 'rxjs'
+import { LoglevelLogger } from '../../../../core/logging/log-level'
 import { UploadCancellationService, UploadProgressService } from '../../../../core/services/uploads'
 import { UploadProgressMessage } from '../../../interceptors/file-upload.interceptor'
 import { DEFAULT_LOADING_CONTEXT, LoadingStatusService } from './loading-status.service'
@@ -17,14 +17,12 @@ export class UX {
     this.uploadCancelService.cancel(a.cancellationToken)
   }
 
-
-
   constructor(
     private loadingStatus: LoadingStatusService,
     private uploadProgress: UploadProgressService,
     private uploadCancelService: UploadCancellationService,
     private authService: AuthService,
-    private router: Router
+    private log: LoglevelLogger
   ) { }
 
   withLogin$() {
@@ -34,12 +32,17 @@ export class UX {
           .pipe(
             timeout(3000),
             first(),
-            catchError(async (err, caught) =>
-              this.authService.loginWithRedirect({
+            tap(x => {
+              this.log.info('logged in')
+            }),
+            catchError(async (err, caught) => {
+              this.log.info('redirecting to login')
+              return this.authService.loginWithRedirect({
                 appState: {
                   target: window.location.pathname
                 }
-              })),
+              })
+            }),
           )
       ))
 

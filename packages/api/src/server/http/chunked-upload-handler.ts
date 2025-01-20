@@ -5,12 +5,10 @@ import fs from 'fs-extra'
 import path from 'path'
 
 
-
 export class ChunkedUploadHandler {
   constructor(
     private storePath: string = "store/"
   ) { }
-
 
   create() {
     return (req: Request, res: Response, next: NextFunction) => {
@@ -46,6 +44,7 @@ export class ChunkedUploadHandler {
             fs.mkdirSync(chunkBufferPath, { recursive: true })
           }
 
+          // move the chunk to the user space
           fs.rename(chunkTemp, chunkPath)
 
           req.body[fieldname] = {
@@ -54,6 +53,7 @@ export class ChunkedUploadHandler {
             mimetype,
             tempfile: chunkTemp
           }
+
         })
       })
 

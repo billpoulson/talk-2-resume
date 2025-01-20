@@ -17,7 +17,7 @@ const rootModules = [
   registerOllamaBackendForRoot,
   registerMongoDbForRoot,
   registerApplicationRBACContainerForRoot,
-  registerExpressRoutes
+  registerExpressRoutes,
 ]
 rootModules.forEach(element => { element(container) })
 

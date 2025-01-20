@@ -16,6 +16,7 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideAnimationsAsync(),
     provideAppInitializer(appInitFn),
+    // provideClientLogger(),
     {
       provide: HTTP_INTERCEPTORS,
       useClass: LoadingInterceptor,
@@ -29,10 +30,22 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(
       withInterceptors([
         authHttpInterceptorFn,
-        // loadingInterceptorInterceptor
       ]),
       withInterceptorsFromDi(),
     ),
 
   ],
 }
+
+// function provideClientLogger() {
+//   return {
+//     provide: LoggingConfig,
+//     useFactory: () => {
+//       const isProduction = environment.node_env == 'production'
+//       return new LoggingConfig(
+//         '', isProduction ? 'INFO' : 'DEBUG'
+//       )
+//     }
+//   }
+// }
+

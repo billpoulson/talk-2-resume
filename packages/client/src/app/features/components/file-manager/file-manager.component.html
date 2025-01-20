@@ -1,0 +1,79 @@
+<mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
+  <mat-tree-node
+    *matTreeNodeDef="let node"
+    matTreeNodePadding
+    (click)="aaa(node)"
+    [class.active]="selectedNode == node.key"
+  >
+    <button mat-icon-button>
+      <mat-icon class="mat-icon-rtl-mirror" [matMenuTriggerFor]="menu">
+        more_vert
+      </mat-icon>
+    </button>
+
+    <mat-icon class="mat-icon-rtl-mirror tree-icon"> description </mat-icon>
+    {{ node.item }}
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item>
+        <mat-icon>dialpad</mat-icon>
+        <span>Redial</span>
+      </button>
+      <button mat-menu-item disabled>
+        <mat-icon>voicemail</mat-icon>
+        <span>Check voice mail</span>
+      </button>
+      <button mat-menu-item>
+        <mat-icon>notifications_off</mat-icon>
+        <span>Disable alerts</span>
+      </button>
+    </mat-menu>
+  </mat-tree-node>
+  <mat-tree-node
+    *matTreeNodeDef="let node; when: hasChild"
+    matTreeNodePadding
+    [cdkTreeNodeTypeaheadLabel]="node.item"
+    (click)="aaa(node)"
+    [class.active]="selectedNode == node.key"
+  >
+    <button
+      mat-icon-button
+      [attr.aria-label]="'Toggle ' + node.item"
+      matTreeNodeToggle
+    >
+      <mat-icon class="mat-icon-rtl-mirror">
+        {{ treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right' }}
+      </mat-icon>
+    </button>
+    <div class="tree-item-container">
+      <button mat-icon-button>
+        <mat-icon class="mat-icon-rtl-mirror" [matMenuTriggerFor]="menu">
+          more_vert
+        </mat-icon>
+      </button>
+      <mat-icon class="mat-icon-rtl-mirror tree-icon"> folder </mat-icon>
+      <button>
+        {{ node.item }}
+      </button>
+    </div>
+    @if (node.isLoading()) {
+    <mat-progress-bar
+      mode="indeterminate"
+      class="example-tree-progress-bar mr-8"
+    ></mat-progress-bar>
+    }
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item>
+        <mat-icon>dialpad</mat-icon>
+        <span>Redial</span>
+      </button>
+      <button mat-menu-item disabled>
+        <mat-icon>voicemail</mat-icon>
+        <span>Check voice mail</span>
+      </button>
+      <button mat-menu-item>
+        <mat-icon>notifications_off</mat-icon>
+        <span>Disable alerts</span>
+      </button>
+    </mat-menu>
+  </mat-tree-node>
+</mat-tree>

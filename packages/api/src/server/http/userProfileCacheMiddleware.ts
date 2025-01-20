@@ -1,4 +1,5 @@
 import { UserInfoObject } from '@talk2resume/types'
+import { firstValueFrom } from 'rxjs'
 import { JWTTokenAuthenticationService } from '../../services/security/jwt-token-authentication-service'
 
 export function userProfileCacheMiddleware(
@@ -8,7 +9,7 @@ export function userProfileCacheMiddleware(
   return async (req: any, res, next) => {
     const cachedProfile = cache.get(req.auth.token)
     if (!cachedProfile || cachedProfile.exp < new Date) {
-      const userProfile = await tokenAuthService.getUserInfo(req.auth.token)
+      const userProfile = await firstValueFrom(tokenAuthService.getUserInfo(req.auth))
       const exp = new Date()
       exp.setSeconds(exp.getSeconds() + 120)
       cache.set(req.auth.token, { userProfile, exp })

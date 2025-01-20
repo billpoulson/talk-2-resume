@@ -9,7 +9,6 @@ export function registerOauth2ModuleForRoot(
     return scope
         .register(AUTH_AUDIENCE$$, { useFactory: () => process.env['AUTH_AUDIENCE'] })
         .register(AUTH_ISSUER_DOMAIN$$, { useFactory: () => process.env['AUTH_ISSUER'] })
-        .register(AUTH_AUDIENCE$$, { useFactory: () => process.env['AUTH_AUDIENCE'] })
         .register(JwksClient, jwksClientFactory)
         .register(JWTVerifyOptions, jwtVerifyOptionsFactory)
 

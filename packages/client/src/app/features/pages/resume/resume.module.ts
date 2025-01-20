@@ -4,11 +4,13 @@ import { RouterModule } from '@angular/router'
 import { UIModule } from '../../../core/modules/ui.module'
 import { ModalModule } from '../../components/modal/modal.module'
 import { ResumePageComponent } from './resume/resume.component'
+import { UploadTestComponent } from './upload-test/upload-test.component'
 
 
 @NgModule({
   declarations: [
-    ResumePageComponent
+    ResumePageComponent,
+    UploadTestComponent
   ],
   imports: [
     CommonModule,

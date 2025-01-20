@@ -2,7 +2,7 @@ import { UserInfoObject } from '@talk2resume/types'
 import jwt from 'jsonwebtoken'
 import { JwksClient } from 'jwks-rsa'
 import fetch from 'node-fetch'
-import { from, map, Observable } from 'rxjs'
+import { concatMap, firstValueFrom, from, map, Observable } from 'rxjs'
 import { inject, singleton } from 'tsyringe'
 import { AUTH_ISSUER_DOMAIN$$ } from '../../ioc/security/injection-tokens'
 import { JWTVerifyOptions } from './oauth/jwt-verify-options'
@@ -33,22 +33,26 @@ export class JWTTokenAuthenticationService {
         if (err) {
           reject(`Token verification failed: ${err.message}`)
         } else {
-          await this.getUserInfo(token).then(resolve)
+          firstValueFrom(this.getUserInfo({ token })).then(resolve)
         }
       })
     })
   }
 
-  getUserInfo(token: string): Promise<UserInfoObject> {
-    return fetch(
+  getUserInfo({ token, payload }: { token: string, payload?: any }): Observable<UserInfoObject> {
+    return from(fetch(
       `https://${this.issuerDomain}/userinfo`, {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${token}`
       }
-    })
-      .then(response => response.json() as any)
-
+    })).pipe(
+      concatMap(response => from(response.json()) as Observable<any>),
+      map(response => ({
+        ...response,
+        permissions: payload?.permissions ?? ['guest']
+      } as any))
+    )
   }
 
 

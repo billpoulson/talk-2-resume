@@ -22,7 +22,7 @@ export class FileUploadComponent {
     const input = event.target as HTMLInputElement
     if (input.files) {
       const files = Array.from(input.files) // Convert FileList to an array
-      this.fileUploadService.uploadFiles(token, files, 'http://localhost:4200/api/uploads/upload')
+      this.fileUploadService.uploadFiles(token, files, '/api/uploads/upload')
         .subscribe(progress => {
 
           this.uploadProgress = progress

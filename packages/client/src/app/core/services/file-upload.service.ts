@@ -6,16 +6,23 @@ import { forkJoin, Observable, of } from 'rxjs'
 import { first, map, switchMap, withLatestFrom } from 'rxjs/operators'
 import { UploadCancellationService } from './uploads'
 
+
+@Injectable({
+  providedIn: 'root',
+})
+export class FileUploadSettings {
+  public readonly chunkSize = 1 * 1024 * 1024
+}
+
 @Injectable({
   providedIn: 'root',
 })
 export class FileUploadService {
-  private readonly chunkSize = 1 * 1024 * 1024; // 5MB
-
   constructor(
     private http: HttpClient,
     public authService: AuthService,
     public uploadCancelService: UploadCancellationService,
+    public cfg: FileUploadSettings,
   ) { }
 
   uploadFiles(token: string, files: File[], uploadUrl: string): Observable<{ file: string; progress: number; status: string }[]> {
@@ -24,10 +31,10 @@ export class FileUploadService {
     const uploadFile = (file: File): Observable<{ file: string; progress: number; status: string }> => {
       const cancellationToken = newUUID()
       let nextChunkIndex = 0
-      const totalChunks = Math.ceil(file.size / this.chunkSize)
+      const totalChunks = Math.ceil(file.size / this.cfg.chunkSize)
 
       const uploadChunk = (start: number, chunkIndex: number): Observable<{ progress: number; status: string }> => {
-        const end = Math.min(start + this.chunkSize, file.size)
+        const end = Math.min(start + this.cfg.chunkSize, file.size)
         const chunk = file.slice(start, end)
 
         const formData = new FormData()
@@ -39,7 +46,7 @@ export class FileUploadService {
           observe: 'events',
           headers: {
             ['chunked-upload']: 'true',
-            ['chunked-upload_chunk-size']: `${this.chunkSize}`,
+            ['chunked-upload_chunk-size']: `${this.cfg.chunkSize}`,
             ['chunked-upload_group']: uploadGroupUUID,
             ['chunked-upload_file']: file.name,
             ['chunked-upload_cancellationToken']: cancellationToken,
@@ -50,9 +57,7 @@ export class FileUploadService {
         }).pipe(
           withLatestFrom(this.uploadCancelService.isCancelled$(cancellationToken)),
           map(([event, cancel]) => {
-            if (cancel) {
-              return { progress: 100, status: 'cancel' }
-            }
+            if (cancel) { return { progress: 100, status: 'cancel' } }
             switch (event.type) {
               case HttpEventType.UploadProgress:
                 const progress = Math.round((100 * (chunkIndex + event.loaded / (end - start))) / totalChunks)
@@ -73,7 +78,7 @@ export class FileUploadService {
         if (index >= totalChunks) {
           return of({ progress: 100, status: 'complete' })
         }
-        return uploadChunk(index * this.chunkSize, index)
+        return uploadChunk(index * this.cfg.chunkSize, index)
           .pipe(
             switchMap((progress) => {
               if (progress.status == 'cancelled') {

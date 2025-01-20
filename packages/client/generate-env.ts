@@ -24,6 +24,7 @@ export const environment = {
   auth_client_id:'${process.env['AUTH_CLIENT_ID']}',
   auth_callback_uri: '${process.env['AUTH_CALLBACK_URI']}',
   auth_audience: '${process.env['AUTH_AUDIENCE']}',
+  node_env: '${NODE_ENV}',
 };
 `
 

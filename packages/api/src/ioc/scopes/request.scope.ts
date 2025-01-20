@@ -1,9 +1,10 @@
 import { UserInfoObject } from '@talk2resume/types'
-import { Request, Response } from 'express'
+import express from 'express'
 import { DependencyContainer } from 'tsyringe'
 import { IRequestFacade } from '../../server/http/request-facade.interface'
+import { FileUploadState } from '../../server/http/uploaded-file-helper'
 
-function getUserProfileFromRequest(req: Request) {
+function getUserProfileFromRequest(req: express.Request) {
   return (req as any as IRequestFacade).userProfile
 }
 
@@ -11,36 +12,65 @@ export const createRequestScopedHandler = (
   scope: DependencyContainer,
   configureRequestScope: (
     scope: DependencyContainer,
-    req: Request,
-    res: Response,
+    req: express.Request,
+    res: express.Response,
     params: Map<string, string>
   ) => DependencyContainer
 ) => {
   return <TBody>(
     action: (
       scope: DependencyContainer,
-      req: Request,
-      res: Response,
+      req: express.Request,
+      res: express.Response,
       params: Map<string, string>,
       body: TBody
     ) => Promise<void>
   ) => {
     return async (
-      req: Request,
-      res: Response
+      req: express.Request,
+      res: express.Response
     ) => {
       const params = new Map(Object.entries(req.params))
 
       let requestScope = scope.createChildContainer()
         .registerSingleton(UserInfoObject)
         .register(UserInfoObject, { useValue: getUserProfileFromRequest(req) })
+        .registerInstance('current-response', res)
+        .registerInstance('current-request', req)
+        .register(FileUploadState, {
+          useFactory: () => {
+            const { chunkIndex, totalChunks, file } = req.body
+            const { filename } = file
+            const { userFileBufferKey } = req as any
+            const chunkBufferPath = ['store', userFileBufferKey, btoa(filename)].join('/')
+            const userFilePath = ['store', userFileBufferKey, filename].join('/')
+            const complete = Number(chunkIndex) + 1 === Number(totalChunks)
+
+            return new FileUploadState(
+              filename,
+              chunkIndex,
+              totalChunks,
+              chunkBufferPath,
+              complete,
+              userFilePath,
+              userFileBufferKey,
+            )
+          }
+        })
 
       requestScope = configureRequestScope(requestScope, req, res, params)
 
-      await action(requestScope, req, res, params, req.body)
+      try {
+        await action(requestScope, req, res, params, req.body)
+      } catch (err: any) {
+        res.destroy(err)
+        console.error(err)
+      }
+      finally {
+        requestScope.reset()
+        requestScope.dispose()
+      }
 
-      requestScope.reset()
-      requestScope.dispose()
     }
 
   }

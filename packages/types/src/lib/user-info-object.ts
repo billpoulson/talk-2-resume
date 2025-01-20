@@ -8,7 +8,8 @@ export class UserInfoObject {
     public picture: string,
     public updated_at: string,
     public email: string,
-    public email_verified: boolean
+    public email_verified: boolean,
+    public permissions: Array<string>
   ) {
   }
 }
