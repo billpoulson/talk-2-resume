@@ -22,25 +22,25 @@ export class HeroRepository extends BaseRepository<{}> {
   }
 }
 
+export interface UserFileEntity {
+  _id: string
+  userPath: string
+  parentKey: string
+  text: string
+  path: string
+  type: 'file' | 'folder'
+}
 
 @injectable()
-export class UserFileRepository extends BaseRepository<{
-  parentKey: string,
-  text: string,
-  type: 'file',
-}> {
+export class UserFileRepository extends BaseRepository<UserFileEntity> {
   constructor(
     db: Db,
     rbac: UserRBAC
   ) {
     super(
       db,
-      Resource.Ship,
-      rbac.createResourceScopedRBAC(Resource.Ship)
+      Resource.UserFiles,
+      rbac.createResourceScopedRBAC(Resource.UserFiles)
     )
   }
-
-  // countOfHeroes(): Promise<number> {
-  //   return this._collection.count({})
-  // }
 }

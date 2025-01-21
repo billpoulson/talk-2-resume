@@ -13,7 +13,7 @@ export enum Actions {
 }
 export enum Resource {
   Wildcard = "*",
-  Station = "station",
+  UserFiles = "user-files",
   Ship = "ship",
 }
 export class AppPermission<TRole, TResource, TAction> {

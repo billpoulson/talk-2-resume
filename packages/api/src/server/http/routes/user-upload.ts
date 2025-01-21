@@ -3,7 +3,7 @@ import { AppTreeNodeData } from '@talk2resume/types'
 import express from 'express'
 import { readdir } from 'fs/promises'
 import { DependencyContainer, injectable } from 'tsyringe'
-import { UserFileRepository } from '../../../db/mongodb/repo/hero.repo'
+import { UserFileEntity, UserFileRepository } from '../../../db/mongodb/repo/hero.repo'
 import { createRequestScopedHandler } from '../../../ioc/scopes/request.scope'
 import { ChunkedUploadHandler } from '../chunked-upload-handler'
 import { UploadedFileHelper, UserFileStorageSettings } from '../uploaded-file-helper'
@@ -53,12 +53,12 @@ export class UserFilesService {
     private userFileRepo: UserFileRepository
   ) { }
 
-  addFile() {
-    this.userFileRepo.create({
-      
-    })
+  addFile(entity: UserFileEntity) { this.userFileRepo.create(entity) }
+  listFiles() {
+    this.userFileRepo.find({ userPath: this.settings.userPath })
   }
-  async listFiles() {
+
+  async listFiles2() {
     try {
       const aa = await readdir(this.settings.userPath)
       return aa

@@ -14,11 +14,11 @@ export class ApplicationRBAC extends RBACContainerBase<Role, Resource, Actions> 
 
     this.describeRole(Role.Admin)
       .withPermissions(Resource.Ship, [Actions.Update])
-      .withPermissions(Resource.Station, [Actions.Read])
+      .withPermissions(Resource.UserFiles, [Actions.Read])
       .buildRole()
 
     this.describeRole(Role.AuthorizedUser)
-      .withPermissions(Resource.Station, [Actions.Wildcard])
+      .withPermissions(Resource.UserFiles, [Actions.Wildcard])
       .buildRole()
 
     this.describeRole(Role.Guest)

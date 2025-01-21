@@ -6,6 +6,7 @@ import { inject, injectable } from 'tsyringe'
 @injectable()
 export class UserFileStorageSettings {
   constructor(
+    public userStorageKey: string,
     public userPath: string
   ) { }
 }

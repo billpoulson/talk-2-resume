@@ -41,6 +41,7 @@ export const createRequestScopedHandler = (
           useFactory: () => {
             const { userFileBufferKey } = req as any
             return new UserFileStorageSettings(
+              userFileBufferKey,
               ['store', userFileBufferKey].join('/'),
             )
           }
