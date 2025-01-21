@@ -4,7 +4,7 @@ import { AppTreeNodeTypes } from '@talk2resume/types'
 export class AppFlatTreeNode {
   constructor(
     public type: keyof AppTreeNodeTypes,
-    public key: string,
+    public _id: string,
     public parentKey: string,
     public text: string,
     public level = 0,

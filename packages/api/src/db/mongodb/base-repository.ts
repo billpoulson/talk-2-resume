@@ -1,16 +1,16 @@
 import { AppRBACFn } from '@talk2resume/common'
 import { Actions } from '@talk2resume/types'
 import {
-    Collection,
-    Db,
-    DeleteResult,
-    Document,
-    Filter,
-    InsertOneResult,
-    ObjectId,
-    OptionalUnlessRequiredId,
-    UpdateResult,
-    WithId
+  Collection,
+  Db,
+  DeleteResult,
+  Document,
+  Filter,
+  InsertOneResult,
+  ObjectId,
+  OptionalUnlessRequiredId,
+  UpdateResult,
+  WithId
 } from 'mongodb'
 import { IRead, IWrite } from './repository.interface'
 
@@ -23,21 +23,24 @@ export abstract class BaseRepository<T extends Document>
     collectionName: string,
     private rbac: AppRBACFn
   ) {
-    
+
     this._collection = db.collection<T>(collectionName)
   }
   findById(id: string): Promise<WithId<T> | null> {
     throw new Error('Method not implemented.')
   }
 
-  async create(item: OptionalUnlessRequiredId<T>): Promise<boolean> {
+  async create(item: OptionalUnlessRequiredId<T>): Promise<{ acknowledged: boolean, insertedId: number }> {
     const { allow, data } = this.rbac(Actions.Create, item)
-    if (!allow) { return Promise.resolve(false) }
+    if (!allow) { return Promise.resolve({ acknowledged: false, insertedId: -1 }) }
 
     const result: InsertOneResult<Document> =
-      await this._collection.insertOne(item)
+      await this._collection.insertOne(item).catch((rr) => {
+        debugger
+        return Promise.resolve({ acknowledged: false, insertedId: -1 } as any) 
+      })
 
-    return !!result.acknowledged
+    return Promise.resolve({ acknowledged: result.acknowledged, insertedId: parseInt(result.insertedId.id.join('')) })
   }
 
   async update(id: string, item: Partial<T>): Promise<boolean> {

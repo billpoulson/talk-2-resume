@@ -6,6 +6,6 @@ export type AppTreeNodeTypes = {
 export type AppTreeNodeData = {
   type: keyof AppTreeNodeTypes
   text: string
-  key: string
+  _id: string
   parentKey?: string
 }

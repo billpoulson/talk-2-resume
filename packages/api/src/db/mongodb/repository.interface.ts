@@ -17,7 +17,7 @@ export interface IRead<T> {
 
 
 export interface IWrite<T> {
-  create(item: OptionalUnlessRequiredId<T>): Promise<boolean>
+  create(item: OptionalUnlessRequiredId<T>): Promise<{ acknowledged: boolean, insertedId: number }>
   update(id: string, item: T): Promise<boolean>
   delete(id: string): Promise<boolean>
 }

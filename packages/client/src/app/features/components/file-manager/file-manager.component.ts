@@ -39,7 +39,8 @@ export class FileManagerComponent implements OnInit {
     this.dataSource = new DynamicDataSource(this.treeControl, useFileService)
 
     // save files after modal fiile select
-    this.addFile.asObservable()
+    this.addFile
+      .asObservable()
       .pipe(concatMap(event => this.uploadService.uploadFiles(event.selected, '/api/uploads/upload')))
       .subscribe()
 
@@ -47,13 +48,10 @@ export class FileManagerComponent implements OnInit {
       .subscribe(files => {
         this.dataSource.initializeData(files as any)
       })
-
   }
 
 
-  ngOnInit(): void {
-
-  }
+  ngOnInit(): void { }
 
   treeControl: FlatTreeControl<AppFlatTreeNode>
 
@@ -64,7 +62,7 @@ export class FileManagerComponent implements OnInit {
   isExpandable = (node: AppFlatTreeNode) => isExpandableNodeType(node.type);
 
   hasChild = (_: number, _nodeData: AppFlatTreeNode) => _nodeData.expandable;
-  selectNode(node: AppFlatTreeNode) { this.selectedNode = node.key }
+  selectNode(node: AppFlatTreeNode) { this.selectedNode = node._id }
 
 
 

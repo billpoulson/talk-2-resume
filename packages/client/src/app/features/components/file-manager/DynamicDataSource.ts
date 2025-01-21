@@ -3,7 +3,7 @@ import { FlatTreeControl } from '@angular/cdk/tree'
 import { AppTreeNodeData } from '@talk2resume/types'
 import { BehaviorSubject, map, merge, Observable } from 'rxjs'
 import { UserFileService } from '../../../core/services/file-upload.service'
-import { AppFlatTreeNode } from './DynamicFlatNode'
+import { AppFlatTreeNode, isExpandableNodeType } from './DynamicFlatNode'
 
 
 
@@ -22,7 +22,7 @@ export class DynamicDataSource implements DataSource<AppFlatTreeNode> {
 
   constructor(
     private _treeControl: FlatTreeControl<AppFlatTreeNode>,
-    private xx: UserFileService,
+    private userFilesService: UserFileService,
   ) { }
 
   connect(collectionViewer: CollectionViewer): Observable<AppFlatTreeNode[]> {
@@ -42,7 +42,7 @@ export class DynamicDataSource implements DataSource<AppFlatTreeNode> {
     collectionViewer: CollectionViewer
   ): void { }
 
-  handleTreeControl(
+  handleTreeControl(  
     change: SelectionChange<AppFlatTreeNode>
   ) {
     if (change.added) {
@@ -61,7 +61,8 @@ export class DynamicDataSource implements DataSource<AppFlatTreeNode> {
     expand: boolean
   ) {
 
-    this.xx.listFiles(node.key)
+    this.userFilesService
+      .listFiles(node._id)
       .subscribe(children => {
         const index = this.data.indexOf(node)
         if (!children || index < 0) {
@@ -72,14 +73,16 @@ export class DynamicDataSource implements DataSource<AppFlatTreeNode> {
         if (expand) {
           node.isLoading.set(true)
           const nodes = children.map(
-            childNode => new AppFlatTreeNode(
-              childNode.type,
-              childNode.key,
-              childNode.parentKey!,
-              childNode.text,
-              node.level + 1,
-              childNode.type == 'folder'
-            )
+            childNode => {
+              return new AppFlatTreeNode(
+                childNode.type,
+                childNode._id,
+                childNode.parentKey!,
+                childNode.text,
+                node.level + 1,
+                childNode.type == 'folder'
+              )
+            }
           )
           this.data.splice(index + 1, 0, ...nodes)
         } else {
@@ -101,22 +104,8 @@ export class DynamicDataSource implements DataSource<AppFlatTreeNode> {
     this.data = this.db
       .filter((x) => x.parentKey === undefined)
       .map((name) =>
-        new AppFlatTreeNode(name.type, name.key, name.parentKey!, name.text, 0, true)
+        new AppFlatTreeNode(name.type, name._id, name.parentKey!, name.text, 0, isExpandableNodeType(name.type))
       )
   }
-
-  // getChildren(node: string): AppTreeNodeData[] | undefined {
-
-  //   return await this.xx.listFiles(node)
-  //     .subscribe(files => {
-  //       debugger
-  //       this.dataSource.appendResponse(files as any)
-  //     })
-  //   return this.db.filter((x) => x.parentKey === node).map((x) => x)
-  // }
-
-  // isExpandable(node: string): boolean {
-  //   return dataMap.has(node)
-  // }
 
 }

@@ -3,7 +3,7 @@
     *matTreeNodeDef="let node"
     matTreeNodePadding
     (click)="selectNode(node)"
-    [class.active]="selectedNode == node.key"
+    [class.active]="selectedNode == node._id"
   >
     <div class="tree-item-container aaas">
       <button class="ebutton">
@@ -28,7 +28,7 @@
     matTreeNodePadding
     [cdkTreeNodeTypeaheadLabel]="node.item"
     (click)="selectNode(node)"
-    [class.active]="selectedNode == node.key"
+    [class.active]="selectedNode == node._id"
   >
     <button
       mat-icon-button

@@ -10,35 +10,35 @@ import { UploadedFileHelper, UserFileStorageSettings } from '../uploaded-file-he
 
 export const dataMap = new Map<string, AppTreeNodeData>([
   ['1', {
-    key: '1',
+    _id: '1',
     text: newUUID(),
     type: 'folder',
   }],
   ['2', {
-    key: '2',
+    _id: '2',
     text: newUUID(),
     type: 'folder',
   }],
   ['3', {
-    key: '3',
+    _id: '3',
     parentKey: '1',
     text: newUUID(),
     type: 'file',
   }],
   ['4', {
-    key: '4',
+    _id: '4',
     parentKey: '2',
     text: newUUID(),
     type: 'folder',
   }],
   ['5', {
-    key: '5',
+    _id: '5',
     parentKey: '4',
     text: newUUID(),
     type: 'file',
   }],
   ['6', {
-    key: '6',
+    _id: '6',
     parentKey: '4',
     text: newUUID(),
     type: 'file',
@@ -53,9 +53,12 @@ export class UserFilesService {
     private userFileRepo: UserFileRepository
   ) { }
 
-  addFile(entity: UserFileEntity) { this.userFileRepo.create(entity) }
-  listFiles() {
-    this.userFileRepo.find({ userPath: this.settings.userPath })
+  addFile(entity: UserFileEntity) { return this.userFileRepo.create(entity) }
+  async listFiles(folder?: string) {
+    return this.userFileRepo.find({
+      parentKey: folder,
+      userPath: this.settings.userStorageKey
+    })
   }
 
   async listFiles2() {
@@ -85,23 +88,31 @@ export class UserUploadControllerRouteFactory implements IExpressRouteFactory {
       requestScopedAction<{ folder: string }>(async (scope, req, res, params, body) => {
         const action = scope.resolve(UserFilesService)
         const folder = params.get('folder')
-        const asd = await action.listFiles()
-        const result = Array.from(dataMap.entries())
-          .filter(([, x]) => x.parentKey === folder).map(([, x]) => x)
+        const dbFiles = await action.listFiles(folder)
+        const mockFiles = []
 
         res.status(200)
-          .send(result)
+          .send([...dbFiles, ...mockFiles])
       })
     )
 
     router.post('/upload', chunkeddUploadHandler.create(),
       requestScopedAction<{}>(async (scope, req, res, params, body) => {
         const upload = scope.resolve(UploadedFileHelper)
+        const action = scope.resolve(UserFilesService)
+        const { userStorageKey: userPath } = scope.resolve(UserFileStorageSettings)
+
         if (upload.isComplete()) {
           // Check if all chunks are received
           // chunks are staged in user isolated storage space
           await upload.save()
-            .then(x => {
+            .then(async x => {
+              await action.addFile({
+                path: upload.userFilePath,
+                text: upload.fileName,
+                type: 'file',
+                userPath,
+              })
               console.log(`File ${upload.fileName} successfully reassembled at ${upload.userFilePath}`)
               res.status(200)
                 .send({

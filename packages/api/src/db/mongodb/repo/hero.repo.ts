@@ -1,6 +1,6 @@
 import { UserRBAC } from '@talk2resume/common'
 import { Resource } from '@talk2resume/types'
-import { Db } from 'mongodb'
+import { Db, ObjectId } from 'mongodb'
 import { injectable } from 'tsyringe'
 import { BaseRepository } from '../base-repository'
 
@@ -23,9 +23,9 @@ export class HeroRepository extends BaseRepository<{}> {
 }
 
 export interface UserFileEntity {
-  _id: string
+  _id?: ObjectId
   userPath: string
-  parentKey: string
+  parentKey?: string
   text: string
   path: string
   type: 'file' | 'folder'

@@ -3,6 +3,7 @@ import express from 'express'
 import { DependencyContainer } from 'tsyringe'
 import { IRequestFacade } from '../../server/http/request-facade.interface'
 import { FileUploadState, UserFileStorageSettings } from '../../server/http/uploaded-file-helper'
+import { registerUserRBACContainer } from '../modules/register-rbac-container'
 
 function getUserProfileFromRequest(req: express.Request) {
   return (req as any as IRequestFacade).userProfile
@@ -66,7 +67,7 @@ export const createRequestScopedHandler = (
             )
           }
         })
-
+      registerUserRBACContainer(requestScope)
       requestScope = configureRequestScope(requestScope, req, res, params)
 
       try {
