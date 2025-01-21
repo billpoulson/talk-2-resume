@@ -27,7 +27,9 @@ export abstract class BaseRepository<T extends Document>
     this._collection = db.collection<T>(collectionName)
   }
   findById(id: string): Promise<WithId<T> | null> {
-    throw new Error('Method not implemented.')
+    return this._collection.findOne(
+      { _id: new ObjectId(id) } as Filter<T>
+    )
   }
 
   async create(item: OptionalUnlessRequiredId<T>): Promise<{ acknowledged: boolean, insertedId: number }> {
@@ -37,7 +39,7 @@ export abstract class BaseRepository<T extends Document>
     const result: InsertOneResult<Document> =
       await this._collection.insertOne(item).catch((rr) => {
         debugger
-        return Promise.resolve({ acknowledged: false, insertedId: -1 } as any) 
+        return Promise.resolve({ acknowledged: false, insertedId: -1 } as any)
       })
 
     return Promise.resolve({ acknowledged: result.acknowledged, insertedId: parseInt(result.insertedId.id.join('')) })

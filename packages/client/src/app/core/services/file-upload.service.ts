@@ -115,16 +115,22 @@ export class FileUploadService {
   providedIn: 'root',
 })
 export class UserFileService {
+
+
   constructor(
-    private http: HttpClient,
     public authService: AuthService,
+    private http: HttpClient,
     public uploadCancelService: UploadCancellationService,
     public cfg: FileUploadSettings,
   ) { }
 
   public listFiles(parentKey?: string) {
     // const uploadGroupUUID = newUUID()
-    return this.http.get<AppFlatTreeNode[]>(`/api/uploads/list/${parentKey??''}`)
+    return this.http.get<AppFlatTreeNode[]>(`/api/uploads/list/${parentKey ?? ''}`)
   }
 
+  deleteFileOrFolder(id: any) {
+    return this.http.delete<AppFlatTreeNode[]>(`/api/uploads/${id}`)
+  }
+  
 }

@@ -14,7 +14,7 @@ export class ApplicationRBAC extends RBACContainerBase<Role, Resource, Actions> 
 
     this.describeRole(Role.Admin)
       .withPermissions(Resource.Ship, [Actions.Update])
-      .withPermissions(Resource.UserFiles, [Actions.Read, Actions.Create])
+      .withPermissions(Resource.UserFiles, [Actions.Read, Actions.Create, Actions.Delete])
       .buildRole()
 
     this.describeRole(Role.AuthorizedUser)

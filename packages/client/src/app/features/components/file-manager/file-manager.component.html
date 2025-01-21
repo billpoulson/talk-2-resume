@@ -16,7 +16,7 @@
     </button>
 
     <mat-menu #menu="matMenu">
-      <button mat-menu-item>
+      <button mat-menu-item (click)="deleteNode(node)">
         <mat-icon>delete</mat-icon>
         <span>Delete</span>
       </button>

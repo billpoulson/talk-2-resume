@@ -19,6 +19,12 @@ export type AddFileToFolderEventData = {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FileManagerComponent implements OnInit {
+
+  deleteNode(node: any) {
+    this.useFileService.deleteFileOrFolder(node._id).subscribe()
+  }
+
+
   selectedNode: string = ''
   fileSelectionCompleted(
     event: FilesSelectedEventData

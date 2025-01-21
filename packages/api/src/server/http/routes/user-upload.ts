@@ -1,13 +1,13 @@
 import { IExpressRouteFactory, newUUID } from '@talk2resume/common'
 import { AppTreeNodeData } from '@talk2resume/types'
+import { HttpStatusCode } from 'axios'
 import express from 'express'
-import { readdir } from 'fs/promises'
+import fs from 'fs'
 import { DependencyContainer, injectable } from 'tsyringe'
 import { UserFileEntity, UserFileRepository } from '../../../db/mongodb/repo/hero.repo'
 import { createRequestScopedHandler } from '../../../ioc/scopes/request.scope'
 import { ChunkedUploadHandler } from '../chunked-upload-handler'
 import { UploadedFileHelper, UserFileStorageSettings } from '../uploaded-file-helper'
-
 export const dataMap = new Map<string, AppTreeNodeData>([
   ['1', {
     _id: '1',
@@ -53,23 +53,27 @@ export class UserFilesService {
     private userFileRepo: UserFileRepository
   ) { }
 
+  delete(id: string) {
+    const fileInfo =
+      this.userFileRepo
+        .findById(id)
+        .then(entity => {
+          fs.unlink(entity?.path!, (error) => {
+            if (error) {
+              console.error('An error occurred:', error)
+            } else {
+              console.log('Successfully deleted the file.', entity?.path)
+            }
+          })
+          return this.userFileRepo.delete(id)
+        })
+  }
   addFile(entity: UserFileEntity) { return this.userFileRepo.create(entity) }
   async listFiles(folder?: string) {
     return this.userFileRepo.find({
       parentKey: folder,
       userPath: this.settings.userStorageKey
     })
-  }
-
-  async listFiles2() {
-    try {
-      const aa = await readdir(this.settings.userPath)
-      return aa
-    }
-    catch (err) {
-      console.error('An error occurred: ', err)
-    }
-    return null
   }
 }
 
@@ -79,11 +83,20 @@ export class UserUploadControllerRouteFactory implements IExpressRouteFactory {
     scope: DependencyContainer
   ) {
 
-    const chunkeddUploadHandler = new ChunkedUploadHandler()
+    const chunkedUploadHandler = new ChunkedUploadHandler()
     const requestScopedAction = createRequestScopedHandler(scope, (scope, req, res) => scope)
 
     const router = express.Router()
 
+    router.delete('/:id',
+      requestScopedAction<{ folder: string }>(async (scope, req, res, params, body) => {
+        const action = scope.resolve(UserFilesService)
+        const id = params.get('id')!
+        await action.delete(id)
+
+        res.status(HttpStatusCode.NoContent).send()
+      })
+    )
     router.get('/list/:folder?',
       requestScopedAction<{ folder: string }>(async (scope, req, res, params, body) => {
         const action = scope.resolve(UserFilesService)
@@ -96,7 +109,7 @@ export class UserUploadControllerRouteFactory implements IExpressRouteFactory {
       })
     )
 
-    router.post('/upload', chunkeddUploadHandler.create(),
+    router.post('/upload', chunkedUploadHandler.create(),
       requestScopedAction<{}>(async (scope, req, res, params, body) => {
         const upload = scope.resolve(UploadedFileHelper)
         const action = scope.resolve(UserFilesService)
