@@ -1,9 +1,10 @@
-.example-tree-progress-bar {
-  margin-left: 30px;
-}
-
 mat-tree-node.active {
   @apply bg-slate-600;
+}
+mat-tree-node:hover {
+  &:not(.active) {
+    @apply bg-slate-800;
+  }
 }
 
 .tree-icon {
@@ -13,4 +14,35 @@ mat-tree-node.active {
 .tree-item-container {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
+  @apply text-sm grow;
+}
+.nested-tree-item-container {
+  flex-wrap: nowrap !important;
+}
+mat-tree-node {
+  display: flex;
+  align-items: center;
+  @apply h-9 rounded-3xl p-1;
+  zoom: 0.8;
+}
+.ffgg {
+  top: -3px;
+}
+.aaas {
+  width: 200px; /* Set a fixed width */
+  white-space: nowrap; /* Prevent the text from wrapping */
+  overflow: hidden; /* Hide the overflow */
+  text-overflow: ellipsis; /* Add the ellipsis */
+}
+
+.ebutton {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  display: flex;
+  width: 100%;
+}
+
+.toggle-chevron {
+  margin-left: 5px;
 }

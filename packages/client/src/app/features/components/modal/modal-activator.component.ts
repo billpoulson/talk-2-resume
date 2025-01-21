@@ -19,7 +19,8 @@ export abstract class ModalActivator<TData = any> implements OnInit {
     public router: Router,
     public route: ActivatedRoute,
     private dialog: MatDialog
-  ) { }
+  ) { 
+  }
 
   ngOnInit(): void {
     this.route.data

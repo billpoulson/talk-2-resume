@@ -4,6 +4,13 @@ import path from 'path'
 import { inject, injectable } from 'tsyringe'
 
 @injectable()
+export class UserFileStorageSettings {
+  constructor(
+    public userPath: string
+  ) { }
+}
+
+@injectable()
 export class FileUploadState {
   constructor(
     public filename: string,

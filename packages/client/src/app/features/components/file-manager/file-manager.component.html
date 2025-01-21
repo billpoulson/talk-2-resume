@@ -2,78 +2,77 @@
   <mat-tree-node
     *matTreeNodeDef="let node"
     matTreeNodePadding
-    (click)="aaa(node)"
+    (click)="selectNode(node)"
     [class.active]="selectedNode == node.key"
   >
+    <div class="tree-item-container aaas">
+      <button class="ebutton">
+        <mat-icon class="mat-icon-rtl-mirror tree-icon"> description </mat-icon>
+        {{ node.text }}
+      </button>
+    </div>
     <button mat-icon-button>
-      <mat-icon class="mat-icon-rtl-mirror" [matMenuTriggerFor]="menu">
-        more_vert
-      </mat-icon>
+      <mat-icon class="fffgg" [matMenuTriggerFor]="menu"> more_vertx </mat-icon>
     </button>
 
-    <mat-icon class="mat-icon-rtl-mirror tree-icon"> description </mat-icon>
-    {{ node.item }}
     <mat-menu #menu="matMenu">
       <button mat-menu-item>
-        <mat-icon>dialpad</mat-icon>
-        <span>Redial</span>
-      </button>
-      <button mat-menu-item disabled>
-        <mat-icon>voicemail</mat-icon>
-        <span>Check voice mail</span>
-      </button>
-      <button mat-menu-item>
-        <mat-icon>notifications_off</mat-icon>
-        <span>Disable alerts</span>
+        <mat-icon>delete</mat-icon>
+        <span>Delete</span>
       </button>
     </mat-menu>
   </mat-tree-node>
+
   <mat-tree-node
     *matTreeNodeDef="let node; when: hasChild"
     matTreeNodePadding
     [cdkTreeNodeTypeaheadLabel]="node.item"
-    (click)="aaa(node)"
+    (click)="selectNode(node)"
     [class.active]="selectedNode == node.key"
   >
     <button
       mat-icon-button
       [attr.aria-label]="'Toggle ' + node.item"
       matTreeNodeToggle
+      class="toggle-chevron"
     >
       <mat-icon class="mat-icon-rtl-mirror">
         {{ treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right' }}
       </mat-icon>
     </button>
-    <div class="tree-item-container">
-      <button mat-icon-button>
-        <mat-icon class="mat-icon-rtl-mirror" [matMenuTriggerFor]="menu">
-          more_vert
-        </mat-icon>
+
+    <mat-icon class="mat-icon-rtl-mirror tree-icon"> folder </mat-icon>
+    <div class="tree-item-container aaas">
+      <button class="ebutton">
+        {{ node.text }}
       </button>
-      <mat-icon class="mat-icon-rtl-mirror tree-icon"> folder </mat-icon>
-      <button>
-        {{ node.item }}
-      </button>
+      @if (node.isLoading()) {
+      <mat-progress-bar
+        mode="indeterminate"
+        class="example-tree-progress-bar"
+      ></mat-progress-bar>
+      }
     </div>
-    @if (node.isLoading()) {
-    <mat-progress-bar
-      mode="indeterminate"
-      class="example-tree-progress-bar mr-8"
-    ></mat-progress-bar>
-    }
+    <button mat-icon-button role="menuitem">
+      <mat-icon class="mat-icon-rtl-mirror fffgg" [matMenuTriggerFor]="menu">
+        more_vert
+      </mat-icon>
+    </button>
     <mat-menu #menu="matMenu">
-      <button mat-menu-item>
-        <mat-icon>dialpad</mat-icon>
-        <span>Redial</span>
-      </button>
-      <button mat-menu-item disabled>
-        <mat-icon>voicemail</mat-icon>
-        <span>Check voice mail</span>
-      </button>
-      <button mat-menu-item>
-        <mat-icon>notifications_off</mat-icon>
-        <span>Disable alerts</span>
+      <button mat-menu-item (click)="uploadModal.activate()">
+        <mat-icon>file_upload</mat-icon>
+        <span>Add Files</span>
       </button>
     </mat-menu>
   </mat-tree-node>
 </mat-tree>
+<app-upload-modal-activator
+  #uploadModal
+  [activatedByRoute]="false"
+  [vvv]="{
+    prompt: 'test',
+    explaination: 'asdasdsad',
+    confirmButtonText: 'Ok, Add Files'
+  }"
+  (filesSelected)="fileSelectionCompleted($event)"
+/>

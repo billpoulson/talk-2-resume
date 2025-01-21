@@ -4,6 +4,7 @@ import { AuthService } from '@auth0/auth0-angular'
 import { newUUID } from '@talk2resume/common'
 import { forkJoin, Observable, of } from 'rxjs'
 import { first, map, switchMap, withLatestFrom } from 'rxjs/operators'
+import { AppFlatTreeNode } from '../../features/components/file-manager/DynamicFlatNode'
 import { UploadCancellationService } from './uploads'
 
 
@@ -25,7 +26,10 @@ export class FileUploadService {
     public cfg: FileUploadSettings,
   ) { }
 
-  uploadFiles(token: string, files: File[], uploadUrl: string): Observable<{ file: string; progress: number; status: string }[]> {
+  uploadFiles(
+    files: File[],
+    uploadUrl: string
+  ): Observable<{ file: string; progress: number; status: string }[]> {
     const uploadGroupUUID = newUUID()
 
     const uploadFile = (file: File): Observable<{ file: string; progress: number; status: string }> => {
@@ -51,8 +55,7 @@ export class FileUploadService {
             ['chunked-upload_file']: file.name,
             ['chunked-upload_cancellationToken']: cancellationToken,
             ['chunked-upload_chunk-index']: `${nextChunkIndex++}`,
-            ['chunked-upload_chunk-count']: `${totalChunks}`,
-            Authorization: `Bearer ${token}`,
+            ['chunked-upload_chunk-count']: `${totalChunks}`
           }
         }).pipe(
           withLatestFrom(this.uploadCancelService.isCancelled$(cancellationToken)),
@@ -99,5 +102,29 @@ export class FileUploadService {
     return forkJoin(uploadObservables)
   }
 
+
+  // aa(
+  //   files: FileList, 
+  //   uploadUrl: string) {
+  // }
+
+}
+
+
+@Injectable({
+  providedIn: 'root',
+})
+export class UserFileService {
+  constructor(
+    private http: HttpClient,
+    public authService: AuthService,
+    public uploadCancelService: UploadCancellationService,
+    public cfg: FileUploadSettings,
+  ) { }
+
+  public listFiles(parentKey?: string) {
+    // const uploadGroupUUID = newUUID()
+    return this.http.get<AppFlatTreeNode[]>(`/api/uploads/list/${parentKey??''}`)
+  }
 
 }

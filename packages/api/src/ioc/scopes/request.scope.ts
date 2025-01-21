@@ -2,7 +2,7 @@ import { UserInfoObject } from '@talk2resume/types'
 import express from 'express'
 import { DependencyContainer } from 'tsyringe'
 import { IRequestFacade } from '../../server/http/request-facade.interface'
-import { FileUploadState } from '../../server/http/uploaded-file-helper'
+import { FileUploadState, UserFileStorageSettings } from '../../server/http/uploaded-file-helper'
 
 function getUserProfileFromRequest(req: express.Request) {
   return (req as any as IRequestFacade).userProfile
@@ -37,6 +37,14 @@ export const createRequestScopedHandler = (
         .register(UserInfoObject, { useValue: getUserProfileFromRequest(req) })
         .registerInstance('current-response', res)
         .registerInstance('current-request', req)
+        .register(UserFileStorageSettings, {
+          useFactory: () => {
+            const { userFileBufferKey } = req as any
+            return new UserFileStorageSettings(
+              ['store', userFileBufferKey].join('/'),
+            )
+          }
+        })
         .register(FileUploadState, {
           useFactory: () => {
             const { chunkIndex, totalChunks, file } = req.body

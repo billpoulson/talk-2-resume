@@ -21,3 +21,26 @@ export class HeroRepository extends BaseRepository<{}> {
     return this._collection.count({})
   }
 }
+
+
+@injectable()
+export class UserFileRepository extends BaseRepository<{
+  parentKey: string,
+  text: string,
+  type: 'file',
+}> {
+  constructor(
+    db: Db,
+    rbac: UserRBAC
+  ) {
+    super(
+      db,
+      Resource.Ship,
+      rbac.createResourceScopedRBAC(Resource.Ship)
+    )
+  }
+
+  // countOfHeroes(): Promise<number> {
+  //   return this._collection.count({})
+  // }
+}

@@ -1,0 +1,9 @@
+.ghjk {
+  @apply flex justify-between;
+
+  mat-card + mat-card {
+    @apply mt-0;
+  }
+
+  justify-content: space-around;
+}
