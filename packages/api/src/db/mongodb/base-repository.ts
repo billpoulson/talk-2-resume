@@ -38,7 +38,6 @@ export abstract class BaseRepository<T extends Document>
 
     const result: InsertOneResult<Document> =
       await this._collection.insertOne(item).catch((rr) => {
-        debugger
         return Promise.resolve({ acknowledged: false, insertedId: -1 } as any)
       })
 
@@ -51,10 +50,22 @@ export abstract class BaseRepository<T extends Document>
 
     const result: UpdateResult = await this._collection.updateOne(
       { _id: new ObjectId(id) } as Filter<T>,
-      { $set: item }
+      { $set: data }
     )
 
     return result.modifiedCount > 0
+  }
+
+  async patch(id: string, patch: Partial<T>): Promise<boolean> {
+    const { allow, data } = this.rbac(Actions.Update, patch)
+    if (!allow) { return Promise.resolve(false) }
+
+    const result: UpdateResult = await this._collection.updateOne(
+      { _id: new ObjectId(id) } as Filter<T>,
+      { $set: data }
+    )
+    return result.modifiedCount > 0
+
   }
 
   async delete(id: string): Promise<boolean> {

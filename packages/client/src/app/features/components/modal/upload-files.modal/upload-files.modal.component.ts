@@ -10,12 +10,14 @@ export type FileUploadModalViewModel = {
   prompt: string
   explaination: string
   confirmButtonText: string
+  selectedFolder?: string
 }
 export type FilesSelectedEventData = {
   selected: File[]
   cancel?: boolean
+  selectedFolder?: string
 }
-const EMPTY_RESULT: FilesSelectedEventData = { selected: [], cancel: true }
+const EMPTY_RESULT: FilesSelectedEventData = { selected: [], cancel: true, selectedFolder: undefined }
 
 @Component({
   selector: 'app-upload-files.modal',
@@ -33,9 +35,12 @@ export class UploadFilesModalComponent {
     >
   ) {
   }
-
   completeFileSelection() {
-    const dialogResult = { selected: this.fileUpload.getSelectedFiles() }
+    const dialogResult: FilesSelectedEventData = {
+      selected: this.fileUpload.getSelectedFiles(),
+      selectedFolder: this.data.selectedFolder
+    }
+
     this.dialogRef.close(dialogResult)
   }
 }
@@ -47,6 +52,7 @@ export class UploadFilesModalComponent {
   styles: ''
 })
 export class UploadFilesModalComponentActivator extends ModalActivator<FileUploadModalViewModel> {
+
   @Output() filesSelected = new EventEmitter<FilesSelectedEventData>();
   @Input() vvv!: FileUploadModalViewModel
 
@@ -57,6 +63,21 @@ export class UploadFilesModalComponentActivator extends ModalActivator<FileUploa
     dialog: MatDialog
   ) {
     super(location, router, route, dialog)
+  }
+
+  uploadToFolder(selectedFolder?: string) {
+    const dialogRef = this.launchDialog<
+      UploadFilesModalComponent,
+      FileUploadModalViewModel,
+      FilesSelectedEventData
+    >(UploadFilesModalComponent, { ...this.vvv, selectedFolder })
+    dialogRef
+      .afterClosed()
+      .pipe(
+        tap(result => {
+          this.filesSelected.emit(result ?? EMPTY_RESULT)
+        })
+      ).subscribe()
   }
 
   override activate() {

@@ -13,6 +13,13 @@ export function forwardTo<T>(subject: Subject<T>) {
     )
   }
 }
+export function notifyWith<T>(subject: Subject<void>) {
+  return function (source: Observable<T>): Observable<T> {
+    return source.pipe(
+      tap(value => subject.next())
+    )
+  }
+}
 
 export function isTruthy<T>(selector?: (data: T) => any) {
 

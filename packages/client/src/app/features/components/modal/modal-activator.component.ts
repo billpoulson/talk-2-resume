@@ -64,4 +64,6 @@ export abstract class ModalActivator<TData = any> implements OnInit {
       }))
     return dialogRef
   }
+
+
 }

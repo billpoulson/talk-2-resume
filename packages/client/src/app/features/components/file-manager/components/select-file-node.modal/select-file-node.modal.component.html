@@ -5,7 +5,7 @@
       <p>
         {{ data.explaination }}
       </p>
-      <app-file-upload #fileUpload />
+      <app-file-manager [(selectedNode)]="selectedNode" />
     </mat-card-content>
   </mat-card>
 </div>
@@ -22,8 +22,8 @@
     mat-button
     color="primary"
     (click)="completeFileSelection()"
-    *ngIf="fileUpload.fileCount > 0"
+    *ngIf="!!selectedNode"
   >
-  {{ data.confirmButtonText }}
+    {{ data.confirmButtonText }}
   </button>
 </div>

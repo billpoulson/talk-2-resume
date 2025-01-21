@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core'
+import { FormsModule } from '@angular/forms'
 import { AllCommunityModule, ClientSideRowModelModule, ModuleRegistry } from 'ag-grid-community'
 import { FileManagerModule } from '../../features/components/file-manager/file-manager.module'
 import { SharedUIComponentsModule } from '../../features/components/shared/shared.ui.module'
@@ -19,6 +20,7 @@ const modules = [
   TextChatModule,
   FileManagerModule,
   GoBackDirective,
+  FormsModule 
 ]
 
 @NgModule({

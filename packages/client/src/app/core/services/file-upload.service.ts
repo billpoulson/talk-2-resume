@@ -2,9 +2,9 @@ import { HttpClient, HttpEventType } from '@angular/common/http'
 import { Injectable } from '@angular/core'
 import { AuthService } from '@auth0/auth0-angular'
 import { newUUID } from '@talk2resume/common'
+import { AppFlatTreeNode } from '@talk2resume/types'
 import { forkJoin, Observable, of } from 'rxjs'
 import { first, map, switchMap, withLatestFrom } from 'rxjs/operators'
-import { AppFlatTreeNode } from '../../features/components/file-manager/DynamicFlatNode'
 import { UploadCancellationService } from './uploads'
 
 
@@ -101,13 +101,6 @@ export class FileUploadService {
     const uploadObservables = files.map(file => uploadFile(file))
     return forkJoin(uploadObservables)
   }
-
-
-  // aa(
-  //   files: FileList, 
-  //   uploadUrl: string) {
-  // }
-
 }
 
 
@@ -115,7 +108,6 @@ export class FileUploadService {
   providedIn: 'root',
 })
 export class UserFileService {
-
 
   constructor(
     public authService: AuthService,
@@ -132,5 +124,15 @@ export class UserFileService {
   deleteFileOrFolder(id: any) {
     return this.http.delete<AppFlatTreeNode[]>(`/api/uploads/${id}`)
   }
-  
+
+  createFolder(text: string, parentKey: string) {
+    return this.http.post<AppFlatTreeNode[]>(`/api/uploads/folder/${parentKey ?? ''}`, {
+      name: text
+    })
+  }
+
+  moveNode({ node, source, destination }: { node: string; source: string | undefined; destination: string | undefined }) {
+    return this.http.post<AppFlatTreeNode[]>(`/api/uploads/${node!}/move/${destination}`, {})
+  }
+
 }

@@ -21,8 +21,10 @@ export class HeroRepository extends BaseRepository<{}> {
     return this._collection.count({})
   }
 }
-
-export interface UserFileEntity {
+export interface TimeStamped {
+  timestamp: number
+}
+export interface UserFileEntity extends TimeStamped {
   _id?: ObjectId
   userPath: string
   parentKey?: string
@@ -33,6 +35,7 @@ export interface UserFileEntity {
 
 @injectable()
 export class UserFileRepository extends BaseRepository<UserFileEntity> {
+
   constructor(
     db: Db,
     rbac: UserRBAC

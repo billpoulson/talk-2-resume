@@ -1,13 +1,22 @@
 import { CollectionViewer, DataSource, SelectionChange } from '@angular/cdk/collections'
 import { FlatTreeControl } from '@angular/cdk/tree'
-import { AppTreeNodeData } from '@talk2resume/types'
+import { signal } from '@angular/core'
+import { AppFlatTreeNode, AppTreeNodeData, AppTreeNodeTypes } from '@talk2resume/types'
 import { BehaviorSubject, map, merge, Observable } from 'rxjs'
-import { UserFileService } from '../../../core/services/file-upload.service'
-import { AppFlatTreeNode, isExpandableNodeType } from './DynamicFlatNode'
+import { UserFileService } from '../../../../core/services/file-upload.service'
 
 
+export const isExpandableNodeType = (type: keyof AppTreeNodeTypes) => {
+  switch (type) {
+    case 'folder': return true
+    default:
+      return false
+  }
+}
 
-export class DynamicDataSource implements DataSource<AppFlatTreeNode> {
+
+export class UserFileManagerDatasource implements DataSource<AppFlatTreeNode> {
+
   dataChange$ = new BehaviorSubject<AppFlatTreeNode[]>([]);
   db: AppTreeNodeData[] = []
 
@@ -42,7 +51,7 @@ export class DynamicDataSource implements DataSource<AppFlatTreeNode> {
     collectionViewer: CollectionViewer
   ): void { }
 
-  handleTreeControl(  
+  handleTreeControl(
     change: SelectionChange<AppFlatTreeNode>
   ) {
     if (change.added) {
@@ -80,7 +89,9 @@ export class DynamicDataSource implements DataSource<AppFlatTreeNode> {
                 childNode.parentKey!,
                 childNode.text,
                 node.level + 1,
-                childNode.type == 'folder'
+                childNode.type == 'folder',
+                signal(false),
+                childNode.timestamp
               )
             }
           )
@@ -102,10 +113,72 @@ export class DynamicDataSource implements DataSource<AppFlatTreeNode> {
   initializeData(data: AppTreeNodeData[]) {
     this.db = Array.from(data)
     this.data = this.db
-      .filter((x) => x.parentKey === undefined)
-      .map((name) =>
-        new AppFlatTreeNode(name.type, name._id, name.parentKey!, name.text, 0, isExpandableNodeType(name.type))
-      )
+      .filter((x) => !x.parentKey)
+      .map((name) => new AppFlatTreeNode(name.type, name._id, name.parentKey!, name.text, 0, isExpandableNodeType(name.type), signal(false),
+        name.timestamp))
+
+
+  }
+
+  reloadRoot() {
+    this.userFilesService.listFiles()
+      .subscribe(files => {
+        this.initializeData(files as any)
+      })
+  }
+
+
+  refreshNode(selectedFolder: string | undefined): void {
+    console.trace(`Refreshing Node Data ${selectedFolder}`)
+    console.debug(`Refreshing Node Data ${selectedFolder}`)
+
+    if (selectedFolder === undefined) {
+      this.reloadRoot()
+      return
+    }
+
+    const selectedNode = this.data.find(node => node._id === selectedFolder)
+    if (!selectedNode) {
+      throw new Error('Selected folder not found')
+    }
+
+    let wasExpanded = this._treeControl.isExpanded(selectedNode)
+    if (wasExpanded) {
+      this._treeControl.collapse(selectedNode)
+    }
+
+    this.userFilesService
+      .listFiles(selectedNode._id)
+      .subscribe(children => {
+        let count = 0
+        const index = this.data.indexOf(selectedNode)
+        this.data.splice(index + 1, count)
+
+        if (!children || index < 0) {
+          return
+        }
+
+        this.data.splice(index + 1, count)
+
+        // Add updated children
+        children.map(childNode =>
+          new AppFlatTreeNode(
+            childNode.type,
+            childNode._id,
+            childNode.parentKey!,
+            childNode.text,
+            selectedNode.level + 1,
+            childNode.type == 'folder',
+            signal(false),
+            childNode.timestamp
+          ))
+
+        // Notify the change
+        this.dataChange$.next(this.data)
+
+        this._treeControl.expand(selectedNode)
+      })
   }
 
 }
+
