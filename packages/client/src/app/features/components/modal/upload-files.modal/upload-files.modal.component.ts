@@ -53,7 +53,7 @@ export class UploadFilesModalComponent {
 })
 export class UploadFilesModalComponentActivator extends ModalActivator<FileUploadModalViewModel> {
 
-  @Output() filesSelected = new EventEmitter<FilesSelectedEventData>();
+  @Output() completed = new EventEmitter<FilesSelectedEventData>();
   @Input() vvv!: FileUploadModalViewModel
 
   constructor(
@@ -75,7 +75,7 @@ export class UploadFilesModalComponentActivator extends ModalActivator<FileUploa
       .afterClosed()
       .pipe(
         tap(result => {
-          this.filesSelected.emit(result ?? EMPTY_RESULT)
+          this.completed.emit(result ?? EMPTY_RESULT)
         })
       ).subscribe()
   }
@@ -90,7 +90,7 @@ export class UploadFilesModalComponentActivator extends ModalActivator<FileUploa
       .afterClosed()
       .pipe(
         tap(result => {
-          this.filesSelected.emit(result ?? EMPTY_RESULT)
+          this.completed.emit(result ?? EMPTY_RESULT)
         })
       ).subscribe()
   }

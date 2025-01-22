@@ -46,7 +46,7 @@ export class SingleTextInputModalComponent {
 })
 export class SingleTextInputModalActivator extends ModalActivator<AppSingleTextInputModalViewModel> {
 
-  @Output() inputComplete = new EventEmitter<AppSingleTextInputEventData>();
+  @Output() completed = new EventEmitter<AppSingleTextInputEventData>();
   @Input() view!: AppSingleTextInputModalViewModel
 
   constructor(
@@ -72,7 +72,7 @@ export class SingleTextInputModalActivator extends ModalActivator<AppSingleTextI
       .afterClosed()
       .pipe(
         tap(result => {
-          this.inputComplete.emit(result)
+          this.completed.emit(result)
         })
       ).subscribe()
   }
@@ -89,7 +89,7 @@ export class SingleTextInputModalActivator extends ModalActivator<AppSingleTextI
       .afterClosed()
       .pipe(
         tap(result => {
-          this.inputComplete.emit(result)
+          this.completed.emit(result)
         })
       ).subscribe()
   }

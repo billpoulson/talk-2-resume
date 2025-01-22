@@ -1,109 +1,114 @@
-<mat-toolbar>
-  <button mat-raised-button (click)="uploadToFolder()">
+<mat-toolbar class="ddffgg">
+  <mat-toolbar-row>
     <mat-icon>file_upload</mat-icon>
-    <span>Add Files</span>
-  </button>
-  <button mat-raised-button (click)="createFolder()">
-    <mat-icon>folder</mat-icon>
-    <span>Add folder</span>
-  </button>
+    <div>File Manager</div>
+    <span class="expand-block"></span>
+
+    <button mat-icon-button [matMenuTriggerFor]="fileMenu" >
+      <mat-icon>more_vert</mat-icon>
+    </button>
+    <mat-menu #fileMenu="matMenu">
+      <button mat-menu-item (click)="createFolder()">
+        <mat-icon>add_circle</mat-icon>
+        <span>New folder</span>
+      </button>
+      <button mat-menu-item (click)="uploadToFolder()">
+        <mat-icon>file_upload</mat-icon>
+        <span>Add Files</span>
+      </button>
+    </mat-menu>
+  </mat-toolbar-row>
 </mat-toolbar>
 
-<mat-card>
-  <mat-card-content>
-    <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
-      <mat-tree-node
-        *matTreeNodeDef="let node"
-        matTreeNodePadding
-        (click)="selectNode(node)"
-        [class.active]="selectedNodeId == node._id"
-      >
-        <div class="tree-item-container aaas">
-          <button class="ebutton">
-            <mat-icon class="mat-icon-rtl-mirror tree-icon">
-              description
-            </mat-icon>
-            {{ node.text }}
-          </button>
-        </div>
-        <button mat-icon-button>
-          <mat-icon class="fffgg" [matMenuTriggerFor]="menu">
-            more_vertx
-          </mat-icon>
-        </button>
-
-        <mat-menu #menu="matMenu">
-          <button mat-menu-item (click)="deleteNode(node)">
-            <mat-icon>delete</mat-icon>
-            <span>Delete</span>
-          </button>
-          <button mat-menu-item (click)="moveNode(node)">
-            <mat-icon>delete</mat-icon>
-            <span>Move</span>
-          </button>
-        </mat-menu>
-      </mat-tree-node>
-
-      <mat-tree-node
-        *matTreeNodeDef="let node; when: hasChild"
-        matTreeNodePadding
-        [cdkTreeNodeTypeaheadLabel]="node.item"
-        (click)="selectNode(node)"
-        [class.active]="selectedNodeId == node._id"
-      >
-        <button
-          mat-icon-button
-          [attr.aria-label]="'Toggle ' + node.item"
-          matTreeNodeToggle
-          class="toggle-chevron"
-        >
-          <mat-icon class="mat-icon-rtl-mirror">
-            {{ treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right' }}
-          </mat-icon>
-        </button>
-
-        <mat-icon class="mat-icon-rtl-mirror tree-icon"> folder </mat-icon>
-        <div class="tree-item-container aaas">
-          <button class="ebutton">
-            {{ node.text }}
-          </button>
-          @if (node.isLoading()) {
-          <mat-progress-bar
-            mode="indeterminate"
-            class="example-tree-progress-bar"
-          ></mat-progress-bar>
-          }
-        </div>
-        <button mat-icon-button role="menuitem">
-          <mat-icon
-            class="mat-icon-rtl-mirror fffgg"
-            [matMenuTriggerFor]="menu"
-          >
-            more_vert
-          </mat-icon>
-        </button>
-        <mat-menu #menu="matMenu">
-          <button mat-menu-item (click)="uploadModal.uploadToFolder(node._id)">
-            <mat-icon>file_upload</mat-icon>
-            <span>Add Files</span>
-          </button>
-          <button mat-menu-item (click)="createFolder(node._id)">
-            <mat-icon>folder</mat-icon>
-            <span>Add folder</span>
-          </button>
-          <button mat-menu-item (click)="deleteNode(node)">
-            <mat-icon>delete</mat-icon>
-            <span>Delete</span>
-          </button>
-          <button mat-menu-item (click)="moveNode(node)">
-            <mat-icon>delete</mat-icon>
-            <span>Move</span>
-          </button>
-        </mat-menu>
-      </mat-tree-node>
-    </mat-tree>
+<!-- <mat-card>
+<mat-card-content>
   </mat-card-content>
-</mat-card>
+</mat-card> -->
+
+<mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
+  <mat-tree-node
+    *matTreeNodeDef="let node"
+    matTreeNodePadding
+    (click)="selectNode(node)"
+    [class.active]="selectedNodeId == node._id"
+  >
+    <div class="tree-item-container aaas">
+      <button class="ebutton">
+        <mat-icon class="mat-icon-rtl-mirror tree-icon"> description </mat-icon>
+        {{ node.text }}
+      </button>
+    </div>
+    <button mat-icon-button>
+      <mat-icon class="fffgg" [matMenuTriggerFor]="menu"> more_vertx </mat-icon>
+    </button>
+
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item (click)="deleteNode(node)">
+        <mat-icon>delete</mat-icon>
+        <span>Delete</span>
+      </button>
+      <button mat-menu-item (click)="moveNode(node)">
+        <mat-icon>sync_alt</mat-icon>
+        <span>Move</span>
+      </button>
+    </mat-menu>
+  </mat-tree-node>
+
+  <mat-tree-node
+    *matTreeNodeDef="let node; when: hasChild"
+    matTreeNodePadding
+    [cdkTreeNodeTypeaheadLabel]="node.item"
+    (click)="selectNode(node)"
+    [class.active]="selectedNodeId == node._id"
+  >
+    <button
+      mat-icon-button
+      [attr.aria-label]="'Toggle ' + node.item"
+      matTreeNodeToggle
+      class="toggle-chevron"
+    >
+      <mat-icon class="mat-icon-rtl-mirror">
+        {{ treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right' }}
+      </mat-icon>
+    </button>
+
+    <mat-icon class="mat-icon-rtl-mirror tree-icon"> folder </mat-icon>
+    <div class="tree-item-container aaas">
+      <button class="ebutton">
+        {{ node.text }}
+      </button>
+      @if (node.isLoading()) {
+      <mat-progress-bar
+        mode="indeterminate"
+        class="example-tree-progress-bar"
+      ></mat-progress-bar>
+      }
+    </div>
+    <button mat-icon-button role="menuitem">
+      <mat-icon class="mat-icon-rtl-mirror fffgg" [matMenuTriggerFor]="menu">
+        more_vert
+      </mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item (click)="uploadModal.uploadToFolder(node._id)">
+        <mat-icon>file_upload</mat-icon>
+        <span>Add Files</span>
+      </button>
+      <button mat-menu-item (click)="createFolder(node._id)">
+        <mat-icon>folder</mat-icon>
+        <span>Add folder</span>
+      </button>
+      <button mat-menu-item (click)="deleteNode(node)">
+        <mat-icon>delete</mat-icon>
+        <span>Delete</span>
+      </button>
+      <button mat-menu-item (click)="moveNode(node)">
+        <mat-icon>sync_alt</mat-icon>
+        <span>Move</span>
+      </button>
+    </mat-menu>
+  </mat-tree-node>
+</mat-tree>
 
 <app-upload-modal-activator
   [activatedByRoute]="false"
@@ -112,7 +117,7 @@
     explaination: 'Add files to your account',
     confirmButtonText: 'Ok, Add Files'
   }"
-  (filesSelected)="fileSelectionCompleted($event)"
+  (completed)="fileSelectionCompleted($event)"
 />
 <app-single-text-input-modal-activator
   [activatedByRoute]="false"
@@ -122,7 +127,7 @@
     confirmButtonText: 'Ok, Continue',
     inputPlaceholder: 'Folder Name',
   }"
-  (inputComplete)="folderNameProvided($event)"
+  (completed)="folderNameProvided($event)"
 />
 <app-select-file-node-modal-activator
   [activatedByRoute]="false"
@@ -131,6 +136,6 @@
     explaination: 'Select destination',
     confirmButtonText: 'Ok, Continue',
   }"
-  (complete)="handleFileMove($event)"
+  (completed)="handleFileMove($event)"
 />
 <!-- (inputComplete)="folderNameProvided($event)" -->

@@ -25,6 +25,7 @@ services:
       - chromadb
       - mongodb
       - ollama
+      - redis
     image: talk2resume/api
     init: true
     volumes:
@@ -40,10 +41,11 @@ services:
 
   talk2resume_share:
     build:
-      context: .
-      dockerfile: pacakges/file-sharing/dockerfile
+      context: packages/file-sharing
+      dockerfile: Dockerfile
     depends_on:
       - mongodb
+      - redis
     image: talk2resume/share
     init: true
     volumes:
@@ -53,11 +55,10 @@ services:
     ports:
       - '8281:8281'
     environment:
-      NODE_ENV: ${NODE_ENV} # Provided in deploy-script
       DOTENV_KEY: ${DOTENV_KEY_SHARE} # Provided in deploy-script
       AUTH_ISSUER: ${AUTH_ISSUER} # Provided in deploy-script
       AUTH_AUDIENCE: ${AUTH_AUDIENCE} # Provided in deploy-script
-      PORT: 8281
+      HTTP_PORTS: 8281
 
   chromadb:
     image: chromadb/chroma
@@ -93,4 +94,24 @@ services:
     environment:
       - NGROK_AUTHTOKEN=${NGROK_TOKEN}
     command: http host.docker.internal:4201 --url=${APPLICATION_DOMAIN}
+
+  # redis:
+  #   image: redis:latest
+  #   ports:
+  #     - '6379:6379'
+
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    # environment:
+    #   - REDIS_PASSWORD=mysecurepassword
+    command: ["redis-server"]
+    # command: ["redis-server", "--requirepass", "mysecurepassword"]
+volumes:
+  redis-data:
+
+
 

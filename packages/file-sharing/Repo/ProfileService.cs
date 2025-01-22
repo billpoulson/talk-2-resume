@@ -1,5 +1,6 @@
 
 using file_sharing.Models;
+using StackExchange.Redis;
 using System.Net.Http.Headers;
 using System.Security.Claims;
 using System.Text.Json;
@@ -12,24 +13,34 @@ public class ProfileService : ICustomService
 {
 
   private readonly IHttpContextAccessor _httpContextAccessor;
-  private readonly HttpContext? current;
+  private readonly IConnectionMultiplexer _redis;
+  private readonly HttpContext? _current;
 
-  public ProfileService(IHttpContextAccessor httpContextAccessor)
+  public ProfileService(
+    IHttpContextAccessor httpContextAccessor
+    //IConnectionMultiplexer redis
+    )
   {
     _httpContextAccessor = httpContextAccessor;
-    this.current = httpContextAccessor.HttpContext;
+    //this._redis = redis;
+    this._current = httpContextAccessor.HttpContext;
   }
   public async Task<UserProfile> GetProfile()
   {
-    var token = current.Request.Headers.Authorization;
-    var authToken = token.ToString().Replace("Bearer ", "");
+    //var db = _redis.GetDatabase();
+    //var value = await db.StringGetAsync(key);
+    //return Ok(value.ToString());
 
+
+    var token = _current.Request.Headers.Authorization;
+    var authToken = token.ToString().Replace("Bearer ", "");
+    var issuer = Environment.GetEnvironmentVariable("AUTH_ISSUER");
     // Get the issuer's ID, which is in the "iss" claim
-    string issuerId = current.User.FindFirst(c => c.Type == ClaimTypes.NameIdentifier)?.Issuer ?? "unknown";
+    string issuerId = _current.User.FindFirst(c => c.Type == ClaimTypes.NameIdentifier)?.Issuer ?? "unknown";
     // Get the user's ID, which is in the "sub" claim
-    string userId = current.User.FindFirst(c => c.Type == ClaimTypes.NameIdentifier)?.Value ?? "unknown";
-    string userEmail = current.User.FindFirst(c => c.Type == ClaimTypes.Email)?.Value ?? "unknown";
-    string userName = current.User.FindFirst(c => c.Type == "name")?.Value ?? "unknown";
+    string userId = _current.User.FindFirst(c => c.Type == ClaimTypes.NameIdentifier)?.Value ?? "unknown";
+    string userEmail = _current.User.FindFirst(c => c.Type == ClaimTypes.Email)?.Value ?? "unknown";
+    string userName = _current.User.FindFirst(c => c.Type == "name")?.Value ?? "unknown";
 
     // Get the user's profile from {issuer}/profile
     var client = new HttpClient();

@@ -27,9 +27,14 @@ export abstract class BaseRepository<T extends Document>
     this._collection = db.collection<T>(collectionName)
   }
   findById(id: string): Promise<WithId<T> | null> {
-    return this._collection.findOne(
-      { _id: new ObjectId(id) } as Filter<T>
-    )
+    try {
+      return this._collection.findOne(
+        { _id: new ObjectId(id) } as Filter<T>
+      )
+    } catch (err: any) {
+      debugger
+      throw err;
+    }
   }
 
   async create(item: OptionalUnlessRequiredId<T>): Promise<{ acknowledged: boolean, insertedId: number }> {

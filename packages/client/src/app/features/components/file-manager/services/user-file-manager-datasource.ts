@@ -129,17 +129,20 @@ export class UserFileManagerDatasource implements DataSource<AppFlatTreeNode> {
 
 
   refreshNode(selectedFolder: string | undefined): void {
-    console.trace(`Refreshing Node Data ${selectedFolder}`)
-    console.debug(`Refreshing Node Data ${selectedFolder}`)
-
-    if (selectedFolder === undefined) {
+    
+    if (!selectedFolder) {
+      console.debug(`Refreshing root`)
       this.reloadRoot()
       return
     }
+    console.trace(`Refreshing Node Data ${selectedFolder}`)
+    console.debug(`Refreshing Node Data ${selectedFolder}`)
 
     const selectedNode = this.data.find(node => node._id === selectedFolder)
+    // const selectedNode2 = this.data.find(node => node.parentKey === selectedFolder)
     if (!selectedNode) {
-      throw new Error('Selected folder not found')
+      return
+      // throw new Error('Selected folder not found')
     }
 
     let wasExpanded = this._treeControl.isExpanded(selectedNode)

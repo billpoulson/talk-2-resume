@@ -4,11 +4,15 @@
     <span class="expand-block"></span>
     <app-log-out-button />
   </mat-toolbar-row>
+  <mat-toolbar-row>
+    <button mat-stroked-button color="primary" [routerLink]="'/my-files'">
+      My Files
+    </button>
+  </mat-toolbar-row>
 </mat-toolbar>
-
 <mat-card class="example-card" appearance="outlined">
   <mat-card-content>
-    <app-file-upload />
+    <!-- <app-file-upload /> -->
     <app-chat-panel />
   </mat-card-content>
 </mat-card>

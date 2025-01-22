@@ -3,12 +3,12 @@ import { NgModule } from '@angular/core'
 import { RouterModule } from '@angular/router'
 import { UIModule } from '../../../core/modules/ui.module'
 import { ModalModule } from '../../components/modal/modal.module'
-import { ResumePageComponent } from './resume.component'
+import { FileManagerPageComponent } from './file-manager.component'
 
 
 @NgModule({
   declarations: [
-    ResumePageComponent,
+    FileManagerPageComponent,
   ],
   imports: [
     CommonModule,
@@ -17,7 +17,7 @@ import { ResumePageComponent } from './resume.component'
     RouterModule,
   ],
   providers: [
-    ResumePageComponent,
+    FileManagerPageComponent,
   ]
 })
-export class ResumeModule { }
+export class FileManagerPageModule { }

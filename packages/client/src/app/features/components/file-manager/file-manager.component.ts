@@ -72,17 +72,20 @@ export class FileManagerComponent implements OnInit {
   }
 
   handleFileMove(event: FileNodeSelectedEventData) {
-    this.useFileService.moveNode({
-      node: event.nodeToMove,
-      source: event.sourceFolder,
-      destination: event.newFolder,
-    })
-      .subscribe(_ => {
-        const refreshRoot = [!!event.sourceFolder, !!event.newFolder].indexOf(false) > -1
-        if (event.sourceFolder) { this.dataSource.refreshNode(event.sourceFolder) }
-        if (event.newFolder) { this.dataSource.refreshNode(event.newFolder) }
-        if (refreshRoot) { this.dataSource.reloadRoot() }
+    if (!event.cancel) {
+      this.useFileService.moveNode({
+        node: event.nodeToMove,
+        source: event.sourceFolder,
+        destination: event.newFolder,
       })
+        .subscribe(_ => {
+          debugger
+          const refreshRoot = [!!event.sourceFolder, !!event.newFolder].indexOf(false) > -1
+          if (!!event.sourceFolder) { this.dataSource.refreshNode(event.sourceFolder) }
+          if (!!event.newFolder) { this.dataSource.refreshNode(event.newFolder) }
+          if (refreshRoot) { this.dataSource.reloadRoot() }
+        })
+    }
   }
 
   deleteNode(node: AppFlatTreeNode) {

@@ -2,8 +2,8 @@ import { Routes } from '@angular/router'
 import { AuthGuard } from '@auth0/auth0-angular'
 import { LogOutComponent } from './features/pages/auth/log-out/log-out.component'
 import { LoggedOutComponent } from './features/pages/auth/logged-out/logged-out.component'
-import { ResumePageComponent } from './features/pages/resume/resume/resume.component'
-import { UploadTestComponent } from './features/pages/resume/upload-test/upload-test.component'
+import { FileManagerPageComponent } from './features/pages/file-manager/file-manager.component'
+import { ResumePageComponent } from './features/pages/resume/resume.component'
 import { UserProfileComponent } from './features/pages/user-profile/user-profile.component'
 export const routes: Routes = [
   {
@@ -12,8 +12,8 @@ export const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
-    path: 'upload',
-    component: UploadTestComponent,
+    path: 'my-files',
+    component: FileManagerPageComponent,
     canActivate: [AuthGuard],
   },
   {

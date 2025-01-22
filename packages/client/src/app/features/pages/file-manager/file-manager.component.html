@@ -2,12 +2,10 @@
   <mat-toolbar-row>
     <div>Talk2Resume:Upload</div>
     <span class="expand-block"></span>
-    <app-log-out-button />
+    <button mat-stroked-button color="primary" appGoBack>
+      Back
+    </button>
   </mat-toolbar-row>
 </mat-toolbar>
 
-<mat-card appearance="outlined">
-  <mat-card-content>
-    <app-file-manager />
-  </mat-card-content>
-</mat-card>
+<app-file-manager />

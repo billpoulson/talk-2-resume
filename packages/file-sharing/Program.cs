@@ -1,8 +1,12 @@
+using file_sharing.Middleware;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Newtonsoft.Json;
+using StackExchange.Redis;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
+
 
 builder.Services
 .AddControllers()
@@ -13,8 +17,14 @@ builder.Services
     options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
   });
 
-builder.Services.AddScoped<ICustomService, ProfileService>();
-
+builder.Services
+  .AddScoped<ICustomService, ProfileService>();
+  //.AddSingleton<IConnectionMultiplexer>(sp =>
+  // {
+  //   // Add Redis configuration
+  //   var configuration = builder.Configuration.GetSection("Redis:ConnectionString").Value ?? "redis:6379";
+  //   return ConnectionMultiplexer.Connect(configuration);
+  // });
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -26,12 +36,14 @@ builder.Services.AddAuthentication(options =>
   options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
 }).AddJwtBearer(options =>
 {
-  options.Authority = Environment.GetEnvironmentVariable("AUTH_ISSUER");
+  options.Authority = "https://" + Environment.GetEnvironmentVariable("AUTH_ISSUER");
   options.Audience = Environment.GetEnvironmentVariable("AUTH_AUDIENCE");
+  options.RequireHttpsMetadata = false; // Disable HTTPS requirement
 });
 
 
 var app = builder.Build();
+app.UseMiddleware<UserProfileMiddleware>();
 app.MapGet("/me", (ICustomService customService) => customService.GetProfile());
 
 // Configure the HTTP request pipeline.
@@ -65,7 +77,7 @@ app.UseAuthentication();
 
 
 
-app.UseHttpsRedirection();
+// app.UseHttpsRedirection();
 
 app.UseAuthorization();
 

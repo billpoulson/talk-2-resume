@@ -56,7 +56,7 @@ export class SelectFileNodeModalComponent {
 })
 export class SelectFileNodeModalComponentActivator extends ModalActivator<SelectFileNodeModalData> {
 
-  @Output() complete = new EventEmitter<FileNodeSelectedEventData>();
+  @Output() completed = new EventEmitter<FileNodeSelectedEventData>();
   @Input() view!: SelectFileNodeModalData
 
   constructor(
@@ -81,7 +81,8 @@ export class SelectFileNodeModalComponentActivator extends ModalActivator<Select
       .afterClosed()
       .pipe(
         tap(result => {
-          this.complete.emit(result ?? EMPTY_RESULT)
+          debugger
+          this.completed.emit(result ?? EMPTY_RESULT)
         })
       ).subscribe()
   }
