@@ -1,4 +1,13 @@
 {
+  "/share": {
+    "target": "http://localhost:8281/",
+    "secure": true,
+    "changeOrigin": true,
+    "logLevel": "debug",
+    "pathRewrite": {
+      "^/share": ""
+    }
+  },
   "/api": {
     "target": "http://localhost:8080/",
     "secure": false,

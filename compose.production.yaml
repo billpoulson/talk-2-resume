@@ -38,6 +38,27 @@ services:
       DOTENV_KEY: ${DOTENV_KEY_API} # Provided in deploy-script
       PORT: 8181
 
+  talk2resume_share:
+    build:
+      context: .
+      dockerfile: pacakges/file-sharing/dockerfile
+    depends_on:
+      - mongodb
+    image: talk2resume/share
+    init: true
+    volumes:
+      - type: bind
+        source: /var/run/docker.sock
+        target: /var/run/docker.sock
+    ports:
+      - '8281:8281'
+    environment:
+      NODE_ENV: ${NODE_ENV} # Provided in deploy-script
+      DOTENV_KEY: ${DOTENV_KEY_SHARE} # Provided in deploy-script
+      AUTH_ISSUER: ${AUTH_ISSUER} # Provided in deploy-script
+      AUTH_AUDIENCE: ${AUTH_AUDIENCE} # Provided in deploy-script
+      PORT: 8281
+
   chromadb:
     image: chromadb/chroma
     volumes:

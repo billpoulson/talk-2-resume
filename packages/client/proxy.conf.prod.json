@@ -1,4 +1,13 @@
 {
+  "/share": {
+    "target": "http://fileshare_api:8182/",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug",
+    "pathRewrite": {
+      "^/api2": ""
+    }
+  },
   "/api": {
     "target": "http://talk2resume_api:8181/",
     "secure": false,

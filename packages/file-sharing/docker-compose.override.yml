@@ -1,0 +1,5 @@
+services:
+  file-sharing:
+    ports:
+      - "8280:8280"
+      - "8281:8281"

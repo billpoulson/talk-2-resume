@@ -30,6 +30,7 @@ export function deploy(nodeEnv: string = 'development') {
     ...currentEnv.parsed,
     DOTENV_KEY_CLIENT: trimOutput(`npx dotenv-vault@latest keys ${NODE_ENV}`, './packages/client'),
     DOTENV_KEY_API: trimOutput(`npx dotenv-vault@latest keys ${NODE_ENV}`, './packages/api'),
+    DOTENV_KEY_SHARE: trimOutput(`npx dotenv-vault@latest keys ${NODE_ENV}`, './packages/file-sharing'),
   }
 
   // generate environment ts files
@@ -43,6 +44,7 @@ export function deploy(nodeEnv: string = 'development') {
   shell.exec(`npm run build --workspace=@talk2resume/api`, {
     env: { ...env, NODE_ENV }
   })
+
   shell.exec(`docker-compose -f compose.${NODE_ENV}.yaml up --build -d`, {
     env
   })

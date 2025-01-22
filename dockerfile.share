@@ -1,0 +1,9 @@
+# FROM node:22
+
+# WORKDIR /app
+
+# COPY .  ./
+# RUN npm install -g @angular/cli
+# RUN npm install
+# RUN ng b @talk2resume/client --configuration=production
+# CMD ["ng", "serve", "--proxy-config=packages/client/proxy.conf.prod.json", "--host=0.0.0.0", "--port=4201"]

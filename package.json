@@ -12,6 +12,7 @@
     "dotenv:build": "npx dotenv-vault@latest build",
     "build-client": "docker build -t talk2resume/client -f dockerfile.client .",
     "build-api": "docker build -t talk2resume/api -f dockerfile.api .",
+    "build-share": "docker build -t talk2resume/share -f packages/file-sharing/Dockerfile ./packages/file-sharing",
     "upgrade-container-prod": "npx tsx ./scripts/deploy-prod.ts"
   },
   "private": true,
@@ -50,6 +51,7 @@
     "lowdb": "^7.0.1",
     "memory-streams": "^0.1.3",
     "mongodb": "^6.12.0",
+    "node-html-parser": "^7.0.1",
     "ollama": "^0.5.12",
     "punycode": "^2.3.1",
     "reflect-metadata": "^0.2.2",
