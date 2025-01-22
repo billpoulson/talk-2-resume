@@ -1,21 +1,43 @@
-import { UserInfoObject } from '@talk2resume/types'
+import { CacheEntry, UserInfoObject } from '@talk2resume/types'
 import { firstValueFrom } from 'rxjs'
+import { container } from 'tsyringe'
+import { RedisRef } from '../../services/cache/redis'
 import { JWTTokenAuthenticationService } from '../../services/security/jwt-token-authentication-service'
+
+
 
 export function userProfileCacheMiddleware(
   tokenAuthService: JWTTokenAuthenticationService
 ) {
-  const cache = new Map<any, { userProfile: UserInfoObject, exp: Date }>
+
   return async (req: any, res, next) => {
-    const cachedProfile = cache.get(req.auth.token)
-    if (!cachedProfile || cachedProfile.exp < new Date) {
-      const userProfile = await firstValueFrom(tokenAuthService.getUserInfo(req.auth))
-      const exp = new Date()
-      exp.setSeconds(exp.getSeconds() + 120)
-      cache.set(req.auth.token, { userProfile, exp })
+    const { redis } = container.resolve(RedisRef)
+    if (!redis.isOpen) {
+      await redis.connect()
     }
-    req.userProfile = cache.get(req.auth.token)?.userProfile
-    req.userFileBufferKey = btoa(req.userProfile.email)
+    const cacheKey = req.auth.payload.sub
+    try {
+      const value = await redis.get(cacheKey)
+
+      let userProfile: UserInfoObject
+      if (value) {
+        const cachedProfile = JSON.parse(value) as CacheEntry<UserInfoObject>
+        userProfile = cachedProfile.data
+      } else {
+        userProfile = await firstValueFrom(tokenAuthService.getUserInfo(req.auth))
+        const newCacheEntry = new CacheEntry(userProfile, {
+          CreatedByResource: "talk2resume-api"
+        })
+        await redis.set(cacheKey, JSON.stringify(newCacheEntry))
+      }
+      if (userProfile) {
+        req.userProfile = userProfile
+        req.userFileBufferKey = btoa(userProfile.email)
+      }
+
+    } catch (err: any) {
+      debugger
+    }
     next()
   }
 }

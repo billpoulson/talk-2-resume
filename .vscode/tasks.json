@@ -2,6 +2,19 @@
   "version": "2.0.0",
   "tasks": [
     {
+      "label": "build-dotnet-api",
+      "command": "dotnet",
+      "type": "process",
+      "args": [
+        "build",
+        "${workspaceFolder}/packages/file-sharing/file-sharing.csproj"
+      ],
+      "problemMatcher": "$msCompile",
+      "dependsOn": [
+        "Redis"
+      ]
+    },
+    {
       "label": "ngrok",
       "type": "shell",
       "command": "ngrok http --domain=tick-enough-kid.ngrok-free.app 4200",
@@ -104,9 +117,9 @@
       }
     },
     {
-      "label": "docker: Chroma-DB",
+      "label": "Chroma-DB",
       "type": "shell",
-      "command": "docker run --rm -p 8000:8000 --name chromadb chromadb/chroma",
+      "command": "docker run --rm -p 8000:8000 --name chromadb-dev chromadb/chroma",
       "isBackground": true,
       "problemMatcher": {
         "owner": "Chroma DB",
@@ -141,7 +154,7 @@
       "type": "shell",
       "command": "mongod",
       "isBackground": true,
-      "dependsOn": "docker: Chroma-DB",
+      // "dependsOn": "MongoDB",
       "problemMatcher": {
         "owner": "angular",
         "pattern": [
@@ -281,6 +294,42 @@
         "reveal": "always",
         "focus": false,
         "panel": "shared"
+      }
+    },
+    {
+      "label": "Redis",
+      "type": "shell",
+      "command": "docker run --rm -p 6479:6379 --name redis-dev redis:latest",
+      "isBackground": true,
+      "dependsOn": [
+        "Chroma-DB"
+      ],
+      "problemMatcher": {
+        "owner": "docker",
+        "pattern": [
+          {
+            "regexp": "^(.+):\\[(\\d+),\\s*(\\d+)\\]:\\s*(ERROR|WARNING)\\s*-\\s*(.*)$",
+            "file": 1,
+            "line": 2,
+            "column": 3,
+            "severity": 4,
+            "message": 5
+          }
+        ],
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": ".*",
+          "endsPattern": ".*Ready to accept connections tcp*"
+        },
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "presentation": {
+        "reveal": "always",
+        "focus": false,
+        "panel": "dedicated"
       }
     },
   ]

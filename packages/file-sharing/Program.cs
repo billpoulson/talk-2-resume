@@ -18,14 +18,13 @@ builder.Services
   });
 
 builder.Services
-  .AddScoped<ICustomService, ProfileService>();
-  //.AddSingleton<IConnectionMultiplexer>(sp =>
-  // {
-  //   // Add Redis configuration
-  //   var configuration = builder.Configuration.GetSection("Redis:ConnectionString").Value ?? "redis:6379";
-  //   return ConnectionMultiplexer.Connect(configuration);
-  // });
-
+  .AddScoped<ICustomService, ProfileService>()
+  .AddSingleton<IConnectionMultiplexer>(sp =>
+  {
+    // Add Redis configuration
+    var configuration = Environment.GetEnvironmentVariable("REDIS_CONNECTION_STRING") ?? "redis:6379";
+    return ConnectionMultiplexer.Connect(configuration);
+  });
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

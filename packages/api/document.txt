@@ -1,116 +1,180 @@
 ﻿William Poulson
-Senior Software Engineer
-Poulson.Bill@Gmail.com
- 616-402-3345
+	poulson.bill@gmail.com
+(616) 402-3345
 
-William Poulson is a seasoned Senior Software Engineer with extensive experience in software development, architecture, and DevOps, particularly in green-field projects. His career spans over two decades, starting with technical and customer support roles, transitioning into application development, and culminating in senior and lead developer positions. His expertise covers a wide range of technologies, including .NET/CORE/Framework, Angular, React, ASP.NET, MVC, Entity Framework, SQL, nodejs, JavaScript, Kotlin, Python, shell and more. Poulson has demonstrated a strong proficiency in front-end and back-end development, cloud computing, database management, and dev-ops practices, evidenced by his use of GitHub Actions, Terraform, Docker, and Google Cloud/Azure.
+	github.com/billpoulson
+	👋 I’m Bill, a seasoned Senior Software Engineer with extensive experience in development, architecture, and DevOps. My demonstrated expertise covers a wide range of technologies, including .NET/CORE/Framework, Angular,  C#, React, ASP.NET, MVC, Entity Framework, SQL, Node.js, JavaScript, Kotlin, Python, shell, and more -- I’m always learning. I have proficiency in both front- and back-end development, cloud computing, database management, and DevOps practices, evidenced by use of GitHub Actions, Terraform, Docker, and Google Cloud/Azure.
 
 
-Recommendations:
-  
-  
-
-  
+🚀 I began coding at thirteen, creating an inventory web app for a computer parts store. This early start laid the foundation for my competence in green-field projects and a lifelong passion for problem solving and technology innovation. Over my professional career's two decades, I began in technical support roles, quickly transitioned into application development, grew into senior engineer positions, and now also actively mentor junior developers in their success.
+	
 
   
 
+	
+
+Professional Recommendations
+	📣 In addition to work history on the next pages, these are examples of feedback received from those I’ve worked closely with -- pulled from my LinkedIn profile -- for your consideration.
+	
+
+Caleb Delnay, Lead Software Architect at Gordon Food Service
 
 
-Experience:
+Bill is a highly skilled and technical software engineer. He brings an architectural mindset and a deep understanding of software to the craft. While many projects trip over the libraries and frameworks they use, Bill truly knows how to apply the full potential of such tools, and repair codebases that have gone astray. He's adept at designing useful abstractions that simplify the lives of other developers, making codebases more maintainable and easier to work with, which means more throughput in building features for the business. Bill is a multiplier of productivity for the developers he works with, elevating the entire team's performance, acting as a mentor for developers of all skill levels, and cracking the shell on the hard problems that stump others.
 
 
-Aug 2024 – Jan 2025 
-Costar Real Estate Manager (contractor)
-Senior Angular Developer (Fully Remote) 
-* Client App feature development using Angular 18/19
-* .net core backend (signalR/mediatR)
-* worked with the team of developers to produce ui for client facing application
-* provided direction on async/observable coding practices
-* took part in implementing custom application component library (primitive components)
-* fixed angular zone issues with custom component library
-* architected solutions using new and existing implementations
-* applied rxjs heavily
+Bill's expertise spans a wide range of areas, like dependency injection, reactivity, cache strategies, message bus design, and performance optimization (to name a few), along with a swath of programming languages, libraries, and frameworks, as well as the seamless application of these concepts across both the back-end and front-end. Bill doesn't shy away from understanding the business challenge at hand and seeks to find a well blended technical approach. If I wanted a problem solved well with a balance between engineering correctness, scope, and cost, I'd ask Bill to design the solution.
 
 
-Feb 2021 – May 2024 
-Kyros Digital (under contract to Gordon Food Service)
-Senior Angular Developer (Remote) 
-* Custom App development Lead using Angular
-* Custom App development using React
-* Responsible for full SDLC
-* used github actions to build and deploy application containers
-* created terraform script to provision and manage google cloud resources
-* created base project for organization to build custom projects from
-   * utilized postgres, next, react, tailwind
-   * supported multi-tenancy
-   * supported white-labeling
-   * fully provision cloud project in moments (with ssl/tls support)
-* built dockerized development environment and additional cloud resources to facilitate onboarding of new developer resources in a turn-key way
-* built google document ai solution for labeling invoices and integrating with property management SAAS providers
-   * required replication and synchronization of remote data
-* created custom integration service to house app business logic
-   * webhook support
-   * message bus support
-   * http
-   * websockets
-   * smoke signals
-* re-engineered major front end angular/rxjs components that were maxing the cpu in large datasets
-* refactored multiple angular projects to a mono-repo pattern with shared resources
-* re-engineered backend to reduce volume of calls needed from front-end to backend
-   * produced realtime product pricing with nearly unlimited measurement unit subdivision
-* general application maintenance and housekeeping
-* mentoring junior/mid level devs
-* extensive work with rxjs
-* some kotlin experience
+Ankit Srivastava, Architect at CoStar Real Estate Manager
 
 
-
-Oct 2018 – Apr 2020
-Spectrum Health
-Senior Developer (Remote)
+I had the pleasure of working with Bill for six months as a Senior UI/UX Engineer contractor. Bill quickly solved complex problems and delivered innovative solutions that greatly contributed to our project success. His expertise in Angular is impressive, consistently producing clean, efficient, and high-quality code. Bill also played a key role in suggesting improvements to our UI/UX coding standards, ensuring better design consistency and maintainability. He’s a strong communicator and collaborator, always working to improve the user experience. I highly recommend Bill for any team looking for a skilled and proactive Senior Engineer.
 
 
-   * App Feature development using Angular components and .net core api
-   * Worked to Reduced complexity
-   * general application maintenance
-   * Front End Development with Angular framework ( kept pace with releases up to v9)
+Matthew Jansen, Senior Director of Strategy at Gordon Food Service
 
 
-Dec 2015 – Sept 2018
-Montage Furniture Services
-Lead Developer/Solution Architect (Onsite & Remote at discretion)
+Bill is a talented senior software developer who combines strategic thinking with a strong work ethic. During our time working together, he demonstrated the value of smart software architecture and intelligent scoping between an application's front- and back-ends. Bill navigated complex data interactions during our transition from legacy systems to SAP, where key definitions were constantly in flux. His ability to abstract functionality ensured our software remained adaptable throughout this change. 
 
 
-   * Design and Implementation of web applications
-   * Asp.net WebAPI and Odata development
-   * Entity framework implementation utilized data migrations for ease of upgrade/downgrade
-   * Design and implementation of scalable high performance distributed architecture to reduce code and prevent bottlenecks in a multi-tenant multi-user environment
-   * Highly configurable with dependency injection and IOC (autofac)
-   * Applied Solid principles
-   * Handled both synchronous and asynchronous calls via message queueing (rebus w/
-azure service bus)
-   * Implemented Triage queue debug process for message bus so that hotfixes could be
-applied without disrupting message processing
-   * Spearheaded development of new projects establishing standards and guidelines that
-are in line with application architecture and future state
-   * Worked with developers to determine long term viability of plugins and add ins used in
-front and backend
-   * Front End Development with JQuery, Angular JS, Angular 2+
+He effectively advocated for sound technical direction and wasn't hesitant to engage in constructive debate, even if his views differed from the majority. This often led to better overall decisions. His maturity and ability to respect team choices, even when personally disagreeing, made him an asset to the team dynamic. Bill willingly mentored developers on our team and created comprehensive documentation that remains a valuable resource for onboarding new members. His desire to deliver results stems from an admirable work ethic, and he was always a source of realistic, honest feedback. Compared to other senior developers I've worked with, Bill's breadth of experience allows him to quickly identify the core of a problem and develop an effective solution. He has an exceptional ability to learn new things quickly, making him adaptable in the face of uncertainty. I appreciate Bill's contributions to our enterprise-grade software, now used by thousands of customers. I'm confident he would be a valuable addition to any software development team.
 
 
+Zachary Arens, Web and Mobile Developer at Kyros Digital
 
 
-Additional History
-   * Jul 2015 - PatternSpace.co: Lead developer for a social collaboration platform for 3D printing; focused on automated testing, AWS deployment, and AngularJS frontend.
-   * Sept 2014 - Jul 2015: Break for training.
-   * Jan 2013 - Sept 2014 - Last Second Ads, LLC: Senior developer for an advertising platform linking media to advertisers; led UI projects, improved deployment processes, and implemented GIT for source control.
-   * Jul 2012 - CogsMedia, LLC: Short-term senior developer role for a political communications platform; project faced funding issues.
-   * Feb 2012 - Jun 2012 - Atkins Professional Services: Lead developer on a SAAS system for pet service businesses, responsible for full stack development.
-   * Oct 2011 - Jan 2012 - Squared Out: Developed custom UI widgets/plugins for a calendar application.
-   * Dec 2010 - Feb 2011 - Fugue Science: Lead UI developer for a short-lived fitness tracking startup; focused on ASP.NET MVC2/3 and frontend development.
-   * Jul 2010 - Oct 2010 - JAWOOD/NASCO: Senior application developer for health insurance systems with a focus on testability and front-end development.
-   * Jan 2008, Apr 2009 - Jul 2009 - JR Automation: Full-stack development of web portals and ERP systems, including UI design and database management.
-   * Apr 2008 - Mar 2009 - Information Systems Group: Developed community and intranet sites using a custom CMS; focused on database administration and LINQ for data access.
-   * Jul 2007 - Oct 2007 - Integra Printing: Developed company intranet and a small Windows application for industrial printer job management.
-   * Feb 2006 - Jan 2007 - SpringThrough: Custom .NET application development with a focus on database management and performance analysis.
-   * 2004 - 2005 - Netpenny.Net, Inc.: Technical and customer support role with development of SQL database applications and network administration.
+Bill is one of those software engineers that just operates on a higher level. While others are still getting their heads around a problem, Bill is ready with the right design patterns and architectural solutions to scale the project. He has been an invaluable asset to my growth as a software engineer, always pushing me towards my next skill development.
+	
+
+Most Recent Work History
+	💼 I’ve acquired a set of versatile and adaptable skills, within many varied environments and tech stacks. My lengthy career’s history includes experience with both defined-term contract projects, as well as full-time positions; from lean start-ups, to established robust businesses, to large multinational corporations. In short, I’ve seen a lot, I’ve done a lot, and I can offer a lot.
+	
+
+Senior Angular Developer, Costar Real Estate Manager                       08/2024 – 01/2025 
+Angular Front-End Development
+
+Major Projects:
+* Developed multi-tenant lease and property management platform Beta
+* Converted legacy .NET web-forms to Angular SPA with .NET core back-end
+Key Responsibilities:
+* Peer code review (team of ten with external contributors)
+* Designed solutions using new and existing implementations
+* Planned sequencing of tasks for sprint(s)
+* Converted Figma designs to components
+* Worked with team to augment existing APIs for SPA client compatibility
+* Contributed to corporate component library
+* Worked with stake-holders to iterate on designs and ideas
+* Parsed VB6 code for business logic to migrate to new SPA client and .NET core backend
+Contribution Highlights:
+* Worked to improve team expertise on RxJS and observable/async coding practices and pit-falls
+* Fixed Angular zone issues with home-grown component library
+* Eliminated a very complex implementation of a common hierarchical drag and drop user interface
+Tech Stack Summary: C#, .NET Core web-API, MediatR, SignalR, Typescript, Angular ~19, Azure DevOps, RxJS, Angular Material, Monorepo
+
+
+Senior Application Developer, Kyros Digital/Gordon Food Service      02/2021 – 05/2024 
+Full-Stack/Angular/Kotlin Development | Staff Augmentation
+
+
+Major Projects:
+* Developed enterprise-scale inventory and recipe management platform
+* Developed of supporting microservices
+Key Responsibilities:
+* Technical supervision and mentorship of software developers
+* Peer code review (team of six)
+* Enhanced inventory and recipe applications
+* Developed back-end to support new feature requests
+* Planned sequencing of tasks for sprint(s)
+* Fixed RxJS complexity
+* Converted Figma designs to components
+* Communicate with adjacent Teams to enhance applications
+Contribution Highlights:
+* Worked to improve team expertise on RxJS and observable/async coding practices and pit-falls
+* Re-engineered back-end to reduce volume of calls needed from front-end to back-end; produced realtime product pricing with nearly unlimited measurement unit subdivision
+* Refactored multiple Angular projects to a mono-repo pattern with shared ui component resources
+* Re-engineered major front-end Angular/RxJS components that were causing crash with large dataset clients
+Tech Stack Summary: Java, Kotlin, Typescript, Angular ~17, Angular Material, Jasmine, Jenkins, Terraform, Docker, Helm, Google Cloud, Sonar, RxJS
+
+
+Full-Stack/React/Next.js/Strapi Development | In-House Projects
+
+
+Major Projects:
+* Refactored scheduling application to use a provider abstraction of the various communication outlets the application interfaced with
+* Implemented DocuSign workflow in customer insurance portal
+* Brinell/Rockwell hardness valuation using OpenCV machine learning
+* Designed and developed an application leveraging Google Document AI to import, parse, and extract data from invoices with high accuracy
+* Integrated the application with a third-party platform (e.g., ERP or accounting software) to streamline workflows and automate data transfer, reducing manual entry and errors
+Key Responsibilities:
+* Technical supervision of software developers
+* Peer code review
+* Full SDLC
+Contribution Highlights:
+* Produced analog of Supabase/Firebase
+Tech Stack Summary: Typescript, React, Next.js(12-13), Vercel, Strapi, GitHub Actions, Postgre, Google Cloud, Terraform, DocuSign, ChatGPT, Shopify, Google Document AI, Jest, Docker, Python, NX, Monorepo, Yarn
+
+
+Senior Developer, Spectrum Health/Priority Health                               10/2018 – 04/2020
+Full-Stack Development 
+
+
+Major Projects:
+* Development of billing module user-interface for health care customer service portal
+* Development of billing module .NET Core API
+* Development of customer dashboards and components
+Key Responsibilities:
+* Ensured on time delivery of projects
+* Technical supervision software developers
+* Converted zeplin designs to components
+* Planned sequencing of tasks for sprint(s)
+* Peer code review  (team of four)
+Contribution Highlights:
+* Introduced routing to enable deeply-linked component routes and states
+* Refactored multiple Angular component implementations into a single point of configuration
+* Each component represented an iframe to an auth proxy that allowed rendering components of a remote app
+Tech Stack Summary: C#, Typescript, Angular 9, Jasmine, .NET Core, Bamboo, confluence, Angular Material, RxJS, Yarn
+
+
+Lead Developer/Solution Architect, Montage Furniture Services         12/2015 - 10/2018
+Microsoft-Centric Full-Stack Development
+
+
+Major Projects:
+* Designed and implementation of multi-tenant warranty service portal for B2B and B2C
+* Architecture, UI/UX, data-model, CI/CD
+* Converted legacy deployment per customer implementation to a single multi-tenant implementation with user managed branding
+* Designed and implemented of field service portal used to track execution of repairs
+* Sunset of VB6 back office applications
+Key Responsibilities:
+* Developed and maintained all aspects of existing client portals 
+* Full SDLC of new projects and proto-types
+* Produced thorough documentation of new and existing systems (confluence)
+* Hired, supervised, and mentored three software developers
+* Worked with stakeholders to design and enhance applications for both internal and external customers
+* Triaged and managed user bugs
+* Peer Code Review (team of four)
+Contribution Highlights:
+* Introduced GIT, CI/CD (TeamCity), Entity Framework
+* Implemented Jira and integrations with deployment pipeline (this provided better visibility of the state of work)
+* Introduced multi-tenancy concepts and abstractions that lead to cleaner code
+* Utilized Entity Framework data migrations for ease of upgrade/downgrade
+Tech Stack Summary: C#, JavaScript, Typescript, ASP.NET, .NET Core, .webAPU, Odata, Razor, Angular-JS, Angular, JQuery, Bootstrap 3, Autofac, Entity Framework, Entity Framework Core, Rebus, Azure, Azure-Service-Bus, Azure-SQL, Azure-Functions , SQL Server Reporting Services, SQL Server Management Studio, Microservices, Docker, Mediator, Bower, Grunt, Gulp
+
+
+Additional Work History
+	🪗 This last section lists over a decade of positions and projects that forged a solid foundation for future software development. The primary tech stack of these years was C#, MSSQL, ASP.NET MVC (Razor), and Entity Framework. It’s challenging listing everything without redundancy and a twelve page resume. So, these years are described briefly, saving space for more recent work.
+	
+
+* Co-Founder/Lead Developer, PatternSpace.co (09/2014-09/2016): social collaboration platform for 3D printing; focused on automated testing, AWS deployment, and AngularJS front-end
+* Senior Developer, Last Second Ads, LLC (12/2012-12/2014): advertising platform linking media to advertisers; led UI projects, improved deployment processes, and implemented GIT for source control
+* Senior Developer (Contract), CogsMedia, LLC (07/2012): political communications platform prototype
+* Lead Developer (Contract), Atkins Professional Services (02/2012-06/2012): SAAS system; full stack development
+* Lead Developer (Contract), Squared Out (10/2011-02/2012): Custom UI widgets/plugins for a calendar app
+* Lead UI Developer (Contract), Fugue Science (12/2010-02/2011): Fitness startup; ASP.NET MVC2/3 and front-end
+* Application Developer (Contract), JAWOOD/NASCO (07/2010-10/2010): Focus on front-end development
+* Software Developer, JR Automation (04/2009-07/2009): Full-stack development of web portals and ERP systems, including UI design and database management
+* Software Developer, Information Systems Group (04/2008-03/2009): Developed community and intranet sites using a custom CMS; focused on database administration and LINQ for data access
+* Software Developer (Contract), Integra Printing (07/2007-10/2007): Developed company intranet and a small Windows application for industrial printer job management
+* Application Developer, SpringThrough (02/2006-01/2007): Custom .NET app development with a focus on database management and performance analysis
+* Technical Support, Netpenny.Net, Inc. (09/2004-01/2006): Technical and customer support role with development of SQL database applications and network administration

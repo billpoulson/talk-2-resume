@@ -11,7 +11,6 @@ export function registerOauth2ModuleForRoot(
         .register(AUTH_ISSUER_DOMAIN$$, { useFactory: () => process.env['AUTH_ISSUER'] })
         .register(JwksClient, jwksClientFactory)
         .register(JWTVerifyOptions, jwtVerifyOptionsFactory)
-
 }
 
 const jwksClientFactory = {

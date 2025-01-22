@@ -15,6 +15,7 @@ import { WebSocketServer } from '../socket$/websocket.server'
 import { ControllerInitializer } from './controller.registry'
 import { corsWhitelist } from './cors-whitelist'
 import { userProfileCacheMiddleware } from './userProfileCacheMiddleware'
+
 @singleton()
 export class ExpressServerContainer {
   public app = express()

@@ -32,12 +32,18 @@ services:
       - type: bind
         source: /var/run/docker.sock
         target: /var/run/docker.sock
+
+      - shared_data:/app/packages/api/store
+      # - type: bind
+      #   source: ./XXDDSS
+      #   target: /app/packages/api/store
     ports:
       - '8181:8181'
     environment:
       NODE_ENV: ${NODE_ENV} # Provided in deploy-script
       DOTENV_KEY: ${DOTENV_KEY_API} # Provided in deploy-script
       PORT: 8181
+      REDIS_CONNECTION_STRING: 'redis://redis:6379'
 
   talk2resume_share:
     build:
@@ -59,6 +65,7 @@ services:
       AUTH_ISSUER: ${AUTH_ISSUER} # Provided in deploy-script
       AUTH_AUDIENCE: ${AUTH_AUDIENCE} # Provided in deploy-script
       HTTP_PORTS: 8281
+      REDIS_CONNECTION_STRING: 'redis:6379'
 
   chromadb:
     image: chromadb/chroma
@@ -88,30 +95,17 @@ services:
               count: all
               capabilities: [gpu]
     runtime: nvidia
-  
+
   ngrok:
     image: ngrok/ngrok:latest
     environment:
       - NGROK_AUTHTOKEN=${NGROK_TOKEN}
     command: http host.docker.internal:4201 --url=${APPLICATION_DOMAIN}
-
-  # redis:
-  #   image: redis:latest
-  #   ports:
-  #     - '6379:6379'
-
   redis:
     image: redis:latest
-    ports:
-      - "6379:6379"
     volumes:
       - redis-data:/data
-    # environment:
-    #   - REDIS_PASSWORD=mysecurepassword
-    command: ["redis-server"]
-    # command: ["redis-server", "--requirepass", "mysecurepassword"]
+    command: ['redis-server']
 volumes:
   redis-data:
-
-
-
+  shared_data:

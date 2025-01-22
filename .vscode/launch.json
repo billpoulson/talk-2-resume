@@ -2,6 +2,24 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": ".NET Core Launch (console)",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build-dotnet-api",
+      "program": "${workspaceFolder}/packages/file-sharing//bin/Debug/net8.0/file-sharing.dll",
+      "args": [],
+      "cwd": "${workspaceFolder}",
+      "stopAtEntry": false,
+      "console": "internalConsole",
+      "env": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ASPNETCORE_URLS": "http://localhost:7234",
+        "REDIS_CONNECTION_STRING": "127.0.0.1:6479",
+        "AUTH_ISSUER": "dev-3avwt6j38oy3nubm.us.auth0.com",
+        "AUTH_AUDIENCE": "space-truckers-api-endpoint",
+      }
+    },
+    {
       "name": "Debug API",
       "type": "node",
       "request": "launch",
@@ -48,11 +66,12 @@
         "group": "",
         "order": 1
       },
+      "preLaunchTask": "Redis",
       "stopAll": true,
       "configurations": [
         "Debug API",
-        "Launch Chrome against localhost"
-      ]
+        ".NET Core Launch (console)",
+      ],
     }
-  ]
+  ],
 }

@@ -1,55 +1,89 @@
 
 using file_sharing.Models;
 using StackExchange.Redis;
+using System.ComponentModel;
 using System.Net.Http.Headers;
 using System.Security.Claims;
 using System.Text.Json;
 
 public interface ICustomService
 {
-  Task<UserProfile> GetProfile();
+  Task<UserProfile?> GetProfile();
 }
 public class ProfileService : ICustomService
 {
-
-  private readonly IHttpContextAccessor _httpContextAccessor;
+  private readonly ILogger _logger;
   private readonly IConnectionMultiplexer _redis;
-  private readonly HttpContext? _current;
-
+  private readonly HttpContext? _httpContext;
   public ProfileService(
-    IHttpContextAccessor httpContextAccessor
-    //IConnectionMultiplexer redis
+    ILogger<ProfileService> logger,
+    IHttpContextAccessor httpContextAccessor,
+    IConnectionMultiplexer redis
     )
   {
-    _httpContextAccessor = httpContextAccessor;
-    //this._redis = redis;
-    this._current = httpContextAccessor.HttpContext;
+    this._logger = logger;
+    this._redis = redis;
+    this._httpContext = httpContextAccessor.HttpContext!;
   }
-  public async Task<UserProfile> GetProfile()
+  public async Task<UserProfile?> GetProfile()
   {
-    //var db = _redis.GetDatabase();
-    //var value = await db.StringGetAsync(key);
-    //return Ok(value.ToString());
-
-
-    var token = _current.Request.Headers.Authorization;
-    var authToken = token.ToString().Replace("Bearer ", "");
-    var issuer = Environment.GetEnvironmentVariable("AUTH_ISSUER");
+    var token = _httpContext?.Request.Headers.Authorization.ToString();
+    if (token == null) { return null; }
+    var tokenValue = token.Replace("Bearer ", "");
     // Get the issuer's ID, which is in the "iss" claim
-    string issuerId = _current.User.FindFirst(c => c.Type == ClaimTypes.NameIdentifier)?.Issuer ?? "unknown";
-    // Get the user's ID, which is in the "sub" claim
-    string userId = _current.User.FindFirst(c => c.Type == ClaimTypes.NameIdentifier)?.Value ?? "unknown";
-    string userEmail = _current.User.FindFirst(c => c.Type == ClaimTypes.Email)?.Value ?? "unknown";
-    string userName = _current.User.FindFirst(c => c.Type == "name")?.Value ?? "unknown";
+    string? userSub = _httpContext.User.FindFirst(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
 
-    // Get the user's profile from {issuer}/profile
+    if (userSub != null)
+    {
+      var db = _redis.GetDatabase();
+      var value = await db.StringGetAsync(userSub);
+      if (value.IsNull)
+      {
+        string issuerId = _httpContext.User.FindFirst(c => c.Type == ClaimTypes.NameIdentifier)?.Issuer!;
+        var profile = await this.FetchUserProfile(issuerId, tokenValue);
+        if (profile != null)
+        {
+          var cacheEntry = new CacheEntry<UserProfile>(
+            profile,
+            new { CreatedByResource = "Share-Service" }
+          );
+          await db.StringSetAsync(userSub, JsonSerializer.Serialize(cacheEntry), TimeSpan.FromMinutes(2));
+          return profile;
+        }
+      }
+      if (value.HasValue)
+      {
+        var serializedProfile = value.ToString();
+        var o = new JsonSerializerOptions
+        {
+          NumberHandling = System.Text.Json.Serialization.JsonNumberHandling.AllowReadingFromString,
+          PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+          PropertyNameCaseInsensitive = true,
+        };
+
+        var cachedProfile = JsonSerializer.Deserialize<CacheEntry<UserProfile>>(serializedProfile, o)!;
+        return cachedProfile.Data!;
+      }
+    }
+
+    return null;
+  }
+  async private Task<UserProfile?> FetchUserProfile(
+    string issuerId,
+    string authToken
+   )
+  {
     var client = new HttpClient();
     client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", authToken);
-    var profileResponse = await client.GetAsync($"{issuerId}userinfo");
+    var requestUrl = $"{issuerId}userinfo";
+    var profileResponse = await client.GetAsync(requestUrl);
 
-    var profile = await profileResponse.Content.ReadAsStringAsync();
-    var result = JsonSerializer.Deserialize<UserProfile>(profile);
-
-    return result!;
+    if (profileResponse.IsSuccessStatusCode)
+    {
+      var profile = await profileResponse.Content.ReadAsStringAsync();
+      var result = JsonSerializer.Deserialize<UserProfile>(profile)!;
+      return result;
+    }
+    return null;
   }
 }

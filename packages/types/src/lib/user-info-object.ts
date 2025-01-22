@@ -1,3 +1,10 @@
+export class CacheEntry<TModel> {
+  constructor(
+    public data: TModel,
+    public meta: any
+  ) {
+  }
+}
 export class UserInfoObject {
   constructor(
     public sub: string,

@@ -16,8 +16,8 @@
       "launchUrl": "swagger",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
-        "AUTH_ISSUER":"PLACEHOLDER",
-        "AUTH_AUDIENCE":"PLACEHOLDER"
+        "AUTH_ISSUER":"dev-3avwt6j38oy3nubm.us.auth0.com",
+        "AUTH_AUDIENCE":"space-truckers-api-endpoint"
       },
       "dotnetRunMessages": true,
       "applicationUrl": "https://localhost:7234;http://localhost:5077"
