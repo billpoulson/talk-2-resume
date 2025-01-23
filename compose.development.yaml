@@ -13,3 +13,25 @@ services:
         source: /var/run/docker.sock
         target: /var/run/docker.sock
 
+  ollama:
+    image: ollama/ollama
+    volumes:
+      - type: bind
+        source: /var/run/docker.sock
+        target: /var/run/docker.sock
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    runtime: nvidia
+  redis:
+    image: redis:latest
+    volumes:
+      - redis-data:/data
+    command: ['redis-server']
+volumes:
+  redis-data:
+  shared_data:

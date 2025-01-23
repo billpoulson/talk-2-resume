@@ -1,0 +1,21 @@
+<div class="slider-container">
+  <mat-slider discrete [min]="minPosition" [max]="maxPosition" step="1">
+    <input #selectStart matSliderStartThumb [(value)]="range[RANGE_START]" />
+    <input #selectEnd matSliderEndThumb [(value)]="range[RANGE_END]" />
+  </mat-slider>
+</div>
+
+<div class="text-container" [innerHTML]="safeHtml"></div>
+
+<!-- <div *ngIf="showDetail">
+  <ul>
+    <li>
+      Character Under Start: {{ characterUnderCursor(selectStart.value) }}
+    </li>
+    <li>Character Under End: {{ characterUnderCursor(selectEnd.value) }}</li>
+    <li>Selected Range: {{ selectStart.value }} to {{ selectEnd.value }}</li>
+    <li>Word Bound Range: {{ snappedRange[0] }} to {{ snappedRange[1] }}</li>
+    <li>Start Word: "{{ getSnapStart() }}"</li>
+    <li>End Word: "{{ getSnapEnd() }}"</li>
+  </ul>
+</div> -->

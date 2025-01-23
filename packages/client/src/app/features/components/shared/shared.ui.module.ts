@@ -13,6 +13,7 @@ import { FileUploadComponent } from './file-upload/file-upload.component'
 import { LogOutButtonComponent } from './log-out-button/log-out-button.component'
 import { TypographyComponent } from './primitive/typography/typography.component'
 import { StartFakeRequestButtonComponent } from './start-fake-request-button/start-fake-request-button.component'
+import { TextRangeSelectComponent } from './text-range-select/text-range-select.component'
 import { UploadProgressBarComponent } from './upload-progress-bar/upload-progress-bar.component'
 import { UserProfileComponent } from './user-profile/callback.component'
 
@@ -27,7 +28,8 @@ const sharedComponents = [
   StartFakeRequestButtonComponent,
   LogOutButtonComponent,
   FileUploadComponent,
-  UploadProgressBarComponent
+  UploadProgressBarComponent,
+  TextRangeSelectComponent
 ]
 
 @NgModule({

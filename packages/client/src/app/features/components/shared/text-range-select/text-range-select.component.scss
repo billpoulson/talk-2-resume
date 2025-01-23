@@ -1,0 +1,16 @@
+.text-container {
+  @apply w-full p-2 mb-1 text-sm;
+}
+
+::ng-deep {
+  .highlight {
+    background-color: red !important;
+  }
+}
+
+.slider-container {
+  @apply flex;
+  mat-slider {
+    @apply w-full;
+  }
+}
